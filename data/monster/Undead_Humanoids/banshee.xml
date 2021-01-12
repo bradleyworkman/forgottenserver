@@ -77,6 +77,5 @@
 		<item name="terra mantle" chance="340" />
 		<item name="petrified scream" chance="4150" />
 		<item name="hair of a banshee" chance="4810" />
-		<item name="sweet smelling bait" chance="40" />
 	</loot>
 </monster>

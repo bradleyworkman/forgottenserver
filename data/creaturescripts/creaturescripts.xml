@@ -7,4 +7,11 @@
 	<event type="death" name="PlayerDeath" script="playerdeath.lua" />
 	<event type="death" name="DropLoot" script="droploot.lua" />
 	<event type="extendedopcode" name="ExtendedOpcode" script="extendedopcode.lua" />
+
+	<!-- Quests-->
+	<event type="logout" name="demonOakLogout" event="script" value="demonOakLogout.lua"/>
+	<event type="death" name="demonOakDeath" event="script" value="demonOakDeath.lua"/>
+	<event type="kill" name="ArenaKill" event="script" value="arenakill.lua"/>
+	<event type="death" name="PythiusTheRotten" event="script" value="PythiusTheRotten.lua"/>
+	
 </creaturescripts>

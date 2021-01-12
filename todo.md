@@ -1,0 +1,23 @@
+- start off on tutorial island, complete tutorial
+- add default NPC script to config; remove references to default.lua in NPC files, remove references to empty NPC files
+- find out original starter outfit (v8.6), set in schema.sql as default
+- automate looking for unused NPCs/script, missing NPCs/script, cleanup NPC/script
+- create sql script for adding default/test accounts
+- create tutor accounts?
+- create name, buy domain
+- create website; python/flask? mysql/postgres?
+- create github project
+- launch beta server
+- fix all TODOs
+- create documentation; import instructions into documentation
+- automate verifying NPC against 8.6 from tibiawiki
+- automate finding missing NPC from tibiawiki version 8.6
+- automate creating new NPC script files from tibiawiki transcripts
+- move data directories into config.lua
+- create new server + scripting (rust?/python?)
+- migrate data from XML (json? stop using confusing xml with multiple ways to do something?)
+- create better logging facilities, add debug logging, update action logs with source locations (file/line of conflicting rule)
+- migrate config.lua to data file (xml, json?)
+- create better database migrations (saltstack?)
+- rearchitect server, allow for one codebase to load multiple protocols/data directories? allow for numerous storage backends, server should only handle network/gamestate/persistence/logging, everything else should be moved to scripting
+- automate translate TFS data directories to new server data directory; transpile lua to new scripting language; backward compatible ABI

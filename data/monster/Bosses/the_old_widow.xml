@@ -65,6 +65,5 @@
 		<item name="bloody edge" chance="3225" />
 		<item name="dreaded cleaver" chance="1639" />
 		<item name="great health potion" countmax="4" chance="100000" />
-		<item name="sweet smelling bait" chance="33333" />
 	</loot>
 </monster>

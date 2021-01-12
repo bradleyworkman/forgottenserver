@@ -58,6 +58,5 @@
 		<item name="great health potion" chance="1000" />
 		<item name="glacier robe" chance="420" />
 		<item name="quara bone" chance="9090" />
-		<item name="giant shrimp" chance="10" />
 	</loot>
 </monster>

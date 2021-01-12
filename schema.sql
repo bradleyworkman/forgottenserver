@@ -1,3 +1,7 @@
+CREATE DATABASE forgottenserver;
+
+USE forgottenserver;
+
 CREATE TABLE IF NOT EXISTS `accounts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
@@ -16,12 +20,13 @@ CREATE TABLE IF NOT EXISTS `players` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `group_id` int(11) NOT NULL DEFAULT '1',
-  `account_id` int(11) NOT NULL DEFAULT '0',
+  `account_id` int(11) NOT NULL,
   `level` int(11) NOT NULL DEFAULT '1',
   `vocation` int(11) NOT NULL DEFAULT '0',
   `health` int(11) NOT NULL DEFAULT '150',
   `healthmax` int(11) NOT NULL DEFAULT '150',
   `experience` bigint(20) NOT NULL DEFAULT '0',
+  -- TODO set the default look to be what it should be...
   `lookbody` int(11) NOT NULL DEFAULT '0',
   `lookfeet` int(11) NOT NULL DEFAULT '0',
   `lookhead` int(11) NOT NULL DEFAULT '0',
@@ -30,17 +35,17 @@ CREATE TABLE IF NOT EXISTS `players` (
   `lookaddons` int(11) NOT NULL DEFAULT '0',
   `direction` tinyint(1) unsigned NOT NULL DEFAULT '2',
   `maglevel` int(11) NOT NULL DEFAULT '0',
-  `mana` int(11) NOT NULL DEFAULT '0',
-  `manamax` int(11) NOT NULL DEFAULT '0',
+  `mana` int(11) NOT NULL DEFAULT '55',
+  `manamax` int(11) NOT NULL DEFAULT '55',
   `manaspent` int(11) unsigned NOT NULL DEFAULT '0',
   `soul` int(10) unsigned NOT NULL DEFAULT '0',
-  `town_id` int(11) NOT NULL DEFAULT '1',
+  `town_id` int(11) NOT NULL DEFAULT '11',
   `posx` int(11) NOT NULL DEFAULT '0',
   `posy` int(11) NOT NULL DEFAULT '0',
   `posz` int(11) NOT NULL DEFAULT '0',
   `conditions` blob NOT NULL,
   `cap` int(11) NOT NULL DEFAULT '400',
-  `sex` int(11) NOT NULL DEFAULT '0',
+  `sex` int(11) NOT NULL DEFAULT '1',
   `lastlogin` bigint(20) unsigned NOT NULL DEFAULT '0',
   `lastip` int(10) unsigned NOT NULL DEFAULT '0',
   `save` tinyint(1) NOT NULL DEFAULT '1',

@@ -171,6 +171,7 @@ class MonsterType
 
 		bool loadCallback(LuaScriptInterface* scriptInterface);
 
+		std::string source;
 		std::string name;
 		std::string nameDescription;
 
@@ -230,11 +231,11 @@ class Monsters
 		Monsters(const Monsters&) = delete;
 		Monsters& operator=(const Monsters&) = delete;
 
-		bool loadFromXml(bool reloading = false);
+		void loadFromXml(bool reloading = false);
 		bool isLoaded() const {
 			return loaded;
 		}
-		bool reload();
+		void reload();
 
 		MonsterType* getMonsterType(const std::string& name);
 		void addMonsterType(const std::string& name, MonsterType* mType);
@@ -248,7 +249,7 @@ class Monsters
 		                                    int32_t maxDamage, int32_t minDamage, int32_t startDamage, uint32_t tickInterval);
 		bool deserializeSpell(const pugi::xml_node& node, spellBlock_t& sb, const std::string& description = "");
 
-		MonsterType* loadMonster(const std::string& file, const std::string& monsterName, bool reloading = false);
+		MonsterType* loadMonster(const std::string& file, bool reloading = false);
 
 		void loadLootContainer(const pugi::xml_node& node, LootBlock&);
 		bool loadLootItem(const pugi::xml_node& node, LootBlock&);
@@ -256,6 +257,10 @@ class Monsters
 		std::map<std::string, std::string> unloadedMonsters;
 
 		bool loaded = false;
+
+		pugi::xml_document openXmlFile(std::string file_name);
+		pugi::xml_node getMonsterNodeFromXmlFile(std::string file_name);
+		std::string getNameFromXmlFile(std::string file_name);
 };
 
 #endif

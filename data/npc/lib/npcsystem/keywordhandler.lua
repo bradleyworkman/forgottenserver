@@ -58,6 +58,20 @@ if not KeywordHandler then
 		return self.keywords
 	end
 
+	function KeywordNode:addAliasKeyword(keywords)
+		if #self.children == 0 then
+			print('KeywordNode:addAliasKeyword no previous node found')
+			return false
+		end
+
+		local prevNode = self.children[#self.children]
+		local new = KeywordNode:new(keywords, prevNode.callback, prevNode.parameters, prevNode.condition, prevNode.action)
+		for i = 1, #prevNode.children do
+			new:addChildKeywordNode(prevNode.children[i])
+		end
+		return self:addChildKeywordNode(new)
+	end
+
 	-- Adds a childNode to this node. Creates the childNode based on the parameters (k = keywords, c = callback, p = parameters)
 	function KeywordNode:addChildKeyword(keywords, callback, parameters)
 		local new = KeywordNode:new(keywords, callback, parameters)
@@ -155,6 +169,11 @@ if not KeywordHandler then
 	-- Adds a new keyword to the root keywordnode. Returns the new node.
 	function KeywordHandler:addKeyword(keys, callback, parameters)
 		return self:getRoot():addChildKeyword(keys, callback, parameters)
+	end
+
+	-- Adds an alias keyword for the previous node.
+	function KeywordHandler:addAliasKeyword(keys)
+		return self:getRoot():addAliasKeyword(keys)
 	end
 
 	-- Moves the current position in the keyword hierarchy steps upwards. Steps defalut value = 1.

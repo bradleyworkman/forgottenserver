@@ -29,6 +29,8 @@
 
 #include "pugicast.h"
 
+#include <filesystem>
+
 extern Game g_game;
 extern Spells* g_spells;
 extern Monsters g_monsters;
@@ -56,43 +58,84 @@ void MonsterType::loadLoot(MonsterType* monsterType, LootBlock lootBlock)
 	}
 }
 
-bool Monsters::loadFromXml(bool reloading /*= false*/)
-{
-	unloadedMonsters = {};
+pugi::xml_document Monsters::openXmlFile(std::string file_name) {
 	pugi::xml_document doc;
-	pugi::xml_parse_result result = doc.load_file("data/monster/monsters.xml");
+	pugi::xml_parse_result result = doc.load_file(file_name.c_str());
+
 	if (!result) {
-		printXMLError("Error - Monsters::loadFromXml", "data/monster/monsters.xml", result);
-		return false;
+		printXMLError("Error - Monsters::loadMonster", file_name, result);
+	}
+
+	return doc;
+}
+
+pugi::xml_node Monsters::getMonsterNodeFromXmlFile(std::string file_name) {
+	pugi::xml_document doc = openXmlFile(file_name);
+
+	pugi::xml_node monsterNode = doc.child("monster");
+	if (!monsterNode) {
+		std::cout << "[Error - Monsters::loadMonster] Missing monster node in: " << file_name << std::endl;
+	}
+
+	return monsterNode;
+}
+
+std::string Monsters::getNameFromXmlFile(std::string file_name) {
+	pugi::xml_node monsterNode = getMonsterNodeFromXmlFile(file_name);
+
+	if (!monsterNode) return "";
+
+	pugi::xml_attribute attr;
+	if (!(attr = monsterNode.attribute("name"))) {
+		std::cout << "[Error - Monsters::loadMonster] Missing name in: " << file_name << std::endl;
+		return "";
+	}
+
+	return attr.as_string();
+}
+
+void Monsters::loadFromXml(bool reloading /*= false*/)
+{
+	for (const auto& file : std::filesystem::recursive_directory_iterator("data/monster")) {
+
+//std::cout << "observing..." << file.path().string() << std::endl;
+
+		if (!file.is_regular_file()) continue;
+		if (file.path().extension().string() != ".xml") continue;
+
+//std::cout << "loading..." << file.path().string() << std::endl;
+
+		std::string name = getNameFromXmlFile(file.path().string());
+
+//std::cout << "found '" << asLowerCaseString(name) << "'" << std::endl;
+
+		auto it = monsters.find(asLowerCaseString(name));
+		if (it != monsters.end()) {
+			std::cout << "[Warning Monsters::loadFromXml] Overwriting '" << name << "' definition from " << it->second.source << " with definition from '" << file.path().string() << "'" << std::endl;
+		}
+
+		auto forceLoad = g_config.getBoolean(ConfigManager::FORCE_MONSTERTYPE_LOAD);
+		if (forceLoad) {
+			loadMonster(file.path().string(), true);
+		} else {
+			if (reloading && it != monsters.end()) {
+				loadMonster(file.path().string(), true);
+			} else {
+				unloadedMonsters.emplace(name, file.path().string());
+			}
+		}
 	}
 
 	loaded = true;
-
-	for (auto monsterNode : doc.child("monsters").children()) {
-		std::string name = asLowerCaseString(monsterNode.attribute("name").as_string());
-		std::string file = "data/monster/" + std::string(monsterNode.attribute("file").as_string());
-		auto forceLoad = g_config.getBoolean(ConfigManager::FORCE_MONSTERTYPE_LOAD);
-		if (forceLoad) {
-			loadMonster(file, name, true);
-			continue;
-		}
-
-		if (reloading && monsters.find(name) != monsters.end()) {
-			loadMonster(file, name, true);
-		} else {
-			unloadedMonsters.emplace(name, file);
-		}
-	}
-	return true;
 }
 
-bool Monsters::reload()
+void Monsters::reload()
 {
 	loaded = false;
 
 	scriptInterface.reset();
 
-	return loadFromXml(true);
+	loadFromXml(true);
 }
 
 ConditionDamage* Monsters::getDamageCondition(ConditionType_t conditionType,
@@ -739,7 +782,7 @@ bool Monsters::deserializeSpell(MonsterSpell* spell, spellBlock_t& sb, const std
 	return true;
 }
 
-MonsterType* Monsters::loadMonster(const std::string& file, const std::string& monsterName, bool reloading /*= false*/)
+MonsterType* Monsters::loadMonster(const std::string& file, bool reloading /*= false*/)
 {
 	MonsterType* mType = nullptr;
 
@@ -762,6 +805,8 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 		return nullptr;
 	}
 
+	std::string monsterName = attr.as_string();
+
 	if (reloading) {
 		auto it = monsters.find(asLowerCaseString(monsterName));
 		if (it != monsters.end()) {
@@ -772,9 +817,10 @@ MonsterType* Monsters::loadMonster(const std::string& file, const std::string& m
 
 	if (!mType) {
 		mType = &monsters[asLowerCaseString(monsterName)];
+		mType->source = file;
 	}
 
-	mType->name = attr.as_string();
+	mType->name = monsterName;
 
 	if ((attr = monsterNode.attribute("nameDescription"))) {
 		mType->nameDescription = attr.as_string();
@@ -1344,7 +1390,7 @@ MonsterType* Monsters::getMonsterType(const std::string& name)
 			return nullptr;
 		}
 
-		return loadMonster(it2->second, name);
+		return loadMonster(it2->second);
 	}
 	return &it->second;
 }

@@ -28,6 +28,8 @@
 		<element energyPercent="-10"/>
 	</elements>
 	<summons maxSummons="3">
+		<!-- TODO add summon back in
 		<summon name="Slime Summon" interval="1000" chance="10" max="3"/>
+		-->
 	</summons>
 </monster>

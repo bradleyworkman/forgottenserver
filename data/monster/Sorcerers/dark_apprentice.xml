@@ -63,6 +63,5 @@
 		<item id="6079" chance="12100" /><!-- dead frog -->
 		<item name="health potion" chance="2900" />
 		<item name="mana potion" chance="2980" />
-		<item name="reins" chance="10" />
 	</loot>
 </monster>

@@ -1,180 +1,106 @@
-local items = {
-	equipment = {
-		[2147] = { -- small ruby
-			[COMBAT_FIREDAMAGE] = {id = 2343, targetId = 2147} -- helmet of the ancients (enchanted)
-		},
-		[2383] = { -- spike sword
-			[COMBAT_FIREDAMAGE] = {id = 7744}, [COMBAT_ICEDAMAGE] = {id = 7763},
-			[COMBAT_EARTHDAMAGE] = {id = 7854}, [COMBAT_ENERGYDAMAGE] = {id = 7869}
-		},
-		[2391] = { -- war hammer
-			[COMBAT_FIREDAMAGE] = {id = 7758}, [COMBAT_ICEDAMAGE] = {id = 7777},
-			[COMBAT_EARTHDAMAGE] = {id = 7868}, [COMBAT_ENERGYDAMAGE] = {id = 7883}
-		},
-		[2423] = { -- clerical mace
-			[COMBAT_FIREDAMAGE] = {id = 7754}, [COMBAT_ICEDAMAGE] = {id = 7773},
-			[COMBAT_EARTHDAMAGE] = {id = 7864}, [COMBAT_ENERGYDAMAGE] = {id = 7879}
-		},
-		[2429] = { -- barbarian axe
-			[COMBAT_FIREDAMAGE] = {id = 7749}, [COMBAT_ICEDAMAGE] = {id = 7768},
-			[COMBAT_EARTHDAMAGE] = {id = 7859}, [COMBAT_ENERGYDAMAGE] = {id = 7874}
-		},
-		[2430] = { -- knight axe
-			[COMBAT_FIREDAMAGE] = {id = 7750}, [COMBAT_ICEDAMAGE] = {id = 7769},
-			[COMBAT_EARTHDAMAGE] = {id = 7860}, [COMBAT_ENERGYDAMAGE] = {id = 7875}
-		},
-		[2445] = { -- crystal mace
-			[COMBAT_FIREDAMAGE] = {id = 7755}, [COMBAT_ICEDAMAGE] = {id = 7774},
-			[COMBAT_EARTHDAMAGE] = {id = 7865}, [COMBAT_ENERGYDAMAGE] = {id = 7880}
-		},
-		[2454] = { -- war axe
-			[COMBAT_FIREDAMAGE] = {id = 7753}, [COMBAT_ICEDAMAGE] = {id = 7772},
-			[COMBAT_EARTHDAMAGE] = {id = 7863}, [COMBAT_ENERGYDAMAGE] = {id = 7878}
-		},
-		[7380] = { -- headchopper
-			[COMBAT_FIREDAMAGE] = {id = 7752}, [COMBAT_ICEDAMAGE] = {id = 7771},
-			[COMBAT_EARTHDAMAGE] = {id = 7862}, [COMBAT_ENERGYDAMAGE] = {id = 7877}
-		},
-		[7383] = { -- relic sword
-			[COMBAT_FIREDAMAGE] = {id = 7745}, [COMBAT_ICEDAMAGE] = {id = 7764},
-			[COMBAT_EARTHDAMAGE] = {id = 7855}, [COMBAT_ENERGYDAMAGE] = {id = 7870}
-		},
-		[7384] = { -- mystic blade
-			[COMBAT_FIREDAMAGE] = {id = 7746}, [COMBAT_ICEDAMAGE] = {id = 7765},
-			[COMBAT_EARTHDAMAGE] = {id = 7856}, [COMBAT_ENERGYDAMAGE] = {id = 7871}
-		},
-		[7389] = { -- heroic axe
-			[COMBAT_FIREDAMAGE] = {id = 7751}, [COMBAT_ICEDAMAGE] = {id = 7770},
-			[COMBAT_EARTHDAMAGE] = {id = 7861}, [COMBAT_ENERGYDAMAGE] = {id = 7876}
-		},
-		[7392] = { -- orcish maul
-			[COMBAT_FIREDAMAGE] = {id = 7757}, [COMBAT_ICEDAMAGE] = {id = 7776},
-			[COMBAT_EARTHDAMAGE] = {id = 7867}, [COMBAT_ENERGYDAMAGE] = {id = 7882}
-		},
-		[7402] = { -- dragon slayer
-			[COMBAT_FIREDAMAGE] = {id = 7748}, [COMBAT_ICEDAMAGE] = {id = 7767},
-			[COMBAT_EARTHDAMAGE] = {id = 7858}, [COMBAT_ENERGYDAMAGE] = {id = 7873}
-		},
-		[7406] = { -- blacksteel sword
-			[COMBAT_FIREDAMAGE] = {id = 7747}, [COMBAT_ICEDAMAGE] = {id = 7766},
-			[COMBAT_EARTHDAMAGE] = {id = 7857}, [COMBAT_ENERGYDAMAGE] = {id = 7872}
-		},
-		[7415] = { -- cranial basher
-			[COMBAT_FIREDAMAGE] = {id = 7756}, [COMBAT_ICEDAMAGE] = {id = 7775},
-			[COMBAT_EARTHDAMAGE] = {id = 7866}, [COMBAT_ENERGYDAMAGE] = {id = 7881}
-		},
-		[8905] = { -- rainbow shield
-			[COMBAT_FIREDAMAGE] = {id = 8906}, [COMBAT_ICEDAMAGE] = {id = 8907},
-			[COMBAT_EARTHDAMAGE] = {id = 8909}, [COMBAT_ENERGYDAMAGE] = {id = 8908}
-		},
-		[10022] = { -- worn firewalker boots
-			[COMBAT_FIREDAMAGE] = {id = 9933, say = {text = "Take the boots off first."}},
-			slot = {type = CONST_SLOT_FEET, check = true}
-		},
-		charges = 1000, effect = CONST_ME_MAGIC_RED
-	},
-
-	valuables = {
-		[2146] = {id = 7759, shrine = {7508, 7509, 7510, 7511}}, -- small sapphire
-		[2147] = {id = 7760, shrine = {7504, 7505, 7506, 7507}}, -- small ruby
-		[2149] = {id = 7761, shrine = {7516, 7517, 7518, 7519}}, -- small emerald
-		[2150] = {id = 7762, shrine = {7512, 7513, 7514, 7515}}, -- small amethyst
-		soul = 2, mana = 300, effect = CONST_ME_HOLYDAMAGE
-	},
-
-	[2342] = {combatType = COMBAT_FIREDAMAGE, targetId = 2147}, -- helmet of the ancients
-	[7759] = {combatType = COMBAT_ICEDAMAGE}, -- small enchanted sapphire
-	[7760] = {combatType = COMBAT_FIREDAMAGE}, -- small enchanted ruby
-	[7761] = {combatType = COMBAT_EARTHDAMAGE}, -- small enchanted emerald
-	[7762] = {combatType = COMBAT_ENERGYDAMAGE}, -- small enchanted amethyst
+local config = {
+	hardcoreManaSpent = getConfigInfo("addManaSpentInPvPZone"),
+	manaCost = 300,
+	soulCost = 2,
 }
 
-function onUse(player, item, fromPosition, target, toPosition, isHotkey)
-	if not target or not target:isItem() then
-		return false
+local spheres = {
+	[7759] = {3, 7},
+	[7760] = {1, 5},
+	[7761] = {2, 6},
+	[7762] = {4, 8}
+}
+
+function onUse(cid, item, fromPosition, itemEx, toPosition)
+	if isInArray({33268, 33269}, toPosition.x) and toPosition.y == 31830 and toPosition.z == 10 and getPlayerStorageValue(cid, 65100) > 0 then
+		if not isInArray(spheres[item.itemid], getPlayerVocation(cid)) then
+			return false
+		elseif isInArray({7915, 7916}, itemEx.itemid) == TRUE then
+			doCreatureSay(cid, 'Turn off the machine first.', TALKTYPE_ORANGE_1)
+			return true
+		else
+			setPlayerStorageValue(cid, 65102, math.max(1, getPlayerStorageValue(cid, 65102) + 1))
+			doSendMagicEffect(toPosition, CONST_ME_PURPLEENERGY)
+			doChangeTypeItem(item.uid, item.type - 1)
+			return true
+		end
 	end
 
-	local itemId, targetId = item:getId(), target:getId()
-	local targetType = items.valuables[itemId] or items.equipment[items[itemId].targetId or targetId]
-	if not targetType then
-		return false
+	if(item.itemid == 2147 and itemEx.itemid == 2342) then
+		doTransformItem(itemEx.uid, 2343)
+		doDecayItem(itemEx.uid)
+		doRemoveItem(item.uid, 1)
+
+		doSendMagicEffect(toPosition, CONST_ME_MAGIC_RED)
+		return true
 	end
 
-	if targetType.shrine then
-		if not table.contains(targetType.shrine, targetId) then
-			player:sendCancelMessage(RETURNVALUE_NOTPOSSIBLE)
+	if(item.itemid == 7760 and isInArray({9934, 10022}, itemEx.itemid)) then
+		doTransformItem(itemEx.uid, 9933)
+		doRemoveItem(item.uid, 1)
+
+		doSendMagicEffect(toPosition, CONST_ME_MAGIC_RED)
+		return true
+	end
+
+	if(isInArray(enchantableGems, item.itemid)) then
+		local subtype = item.type
+		if(subtype == 0) then
+			subtype = 1
+		end
+
+		local mana = config.manaCost * subtype
+		if(getPlayerMana(cid) < mana) then
+			doPlayerSendDefaultCancel(cid, RETURNVALUE_NOTENOUGHMANA)
 			return true
 		end
 
-		if player:getMana() < items.valuables.mana then
-			player:sendCancelMessage(RETURNVALUE_NOTENOUGHMANA)
+		local soul = config.soulCost * subtype
+		if(getPlayerSoul(cid) < soul) then
+			doPlayerSendDefaultCancel(cid, RETURNVALUE_NOTENOUGHSOUL)
 			return true
 		end
 
-		if player:getSoul() < items.valuables.soul then
-			player:sendCancelMessage(RETURNVALUE_NOTENOUGHSOUL)
-			return true
-		end
-		player:addSoul(-items.valuables.soul)
-		player:addMana(-items.valuables.mana)
-		player:addManaSpent(items.valuables.mana)
-		player:addItem(targetType.id)
-		player:getPosition():sendMagicEffect(items.valuables.effect)
-		item:remove(1)
-	else
-		local targetItem = targetType[items[itemId].combatType]
-		if not targetItem or targetItem.targetId and targetItem.targetId ~= targetId then
+		local a = table.find(enchantableGems, item.itemid)
+		if(a == nil or not isInArray(enchantingAltars[a], itemEx.itemid)) then
 			return false
 		end
 
-		local isInSlot = targetType.slot and targetType.slot.check and target:getType():usesSlot(targetType.slot.type) and Player(target:getParent())
-		if isInSlot then
-			if targetItem.say then
-				player:say(targetItem.say.text, TALKTYPE_MONSTER_SAY)
-				return true
-			elseif targetItem.message then
-				player:sendTextMessage(MESSAGE_EVENT_ADVANCE, targetItem.message.text)
-			else
-				return false
-			end
-		else
-			if targetItem.targetId then
-				item:transform(targetItem.id)
-				item:decay()
-				target:remove(1)
-			else
-				if targetItem.usesStorage then
-					local vocationId = player:getVocation():getDemotion():getId()
-					local storage = storages[itemId] and storages[itemId][targetId] and storages[itemId][targetId][vocationId]
-					if not storage then
-						return false
-					end
+		doPlayerAddMana(cid, -mana)
+		doPlayerAddSoul(cid, -soul)
 
-					local storageValue = player:getStorageValue(storage.key)
-					if storageValue == -1 then
-						return false
-					end
-
-					local transform = targetItem.id and targetItem.id[storageValue]
-					if not transform then
-						return false
-					end
-					target:transform(transform.id)
-				else
-					target:transform(targetItem.id)
-				end
-
-				if target:hasAttribute(ITEM_ATTRIBUTE_DURATION) then
-					target:decay()
-				end
-
-				if target:hasAttribute(ITEM_ATTRIBUTE_CHARGES) then
-					target:setAttribute(ITEM_ATTRIBUTE_CHARGES, items.equipment.charges)
-				end
-				item:remove(1)
-			end
+		doTransformItem(item.uid, enchantedGems[a])
+		if(not getPlayerFlagValue(cid, PlayerFlag_NotGainMana) and (not getTileInfo(getThingPosition(cid)).hardcore or config.hardcoreManaSpent)) then
+			doPlayerAddSpentMana(cid, mana)
 		end
-		player:getPosition():sendMagicEffect(targetItem.effects and (isInSlot and targetItem.effects.failure or targetItem.effects.success) or items.equipment.effect)
+
+		doSendMagicEffect(fromPosition, CONST_ME_HOLYDAMAGE)
+		return true
 	end
-	return true
+ 
+	if(isInArray(enchantedGems, item.itemid)) then
+		if(not isInArray(enchantableItems, itemEx.itemid)) then
+			doSendMagicEffect(fromPosition, CONST_ME_POFF)
+			return false
+		end
+
+		local b = table.find(enchantedGems, item.itemid)
+		if(b == nil) then
+			return false
+		end
+
+		local subtype = itemEx.type
+		if(not isInArray({2544, 8905}, itemEx.itemid)) then
+			subtype = 1000
+		end
+
+		doTransformItem(itemEx.uid, enchantedItems[itemEx.itemid][b], subtype)
+		doSendMagicEffect(getThingPos(itemEx.uid), CONST_ME_HOLYDAMAGE)
+		doDecayItem(itemEx.uid)
+
+		doRemoveItem(item.uid, 1)
+		return true
+	end
+
+	return false
 end

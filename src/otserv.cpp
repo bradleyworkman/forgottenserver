@@ -183,12 +183,6 @@ void mainLoader(int, char*[], ServiceManager* services)
 	}
 	g_databaseTasks.start();
 
-	DatabaseManager::updateDatabase();
-
-	if (g_config.getBoolean(ConfigManager::OPTIMIZE_DATABASE) && !DatabaseManager::optimizeTables()) {
-		std::cout << "> No tables were optimized." << std::endl;
-	}
-
 	//load vocations
 	std::cout << ">> Loading vocations" << std::endl;
 	if (!g_vocations.loadFromXml()) {
@@ -221,10 +215,8 @@ void mainLoader(int, char*[], ServiceManager* services)
 	}
 
 	std::cout << ">> Loading monsters" << std::endl;
-	if (!g_monsters.loadFromXml()) {
-		startupErrorMessage("Unable to load monsters!");
-		return;
-	}
+	g_monsters.loadFromXml();
+
 
 	std::cout << ">> Loading lua monsters" << std::endl;
 	if (!g_scripts->loadScripts("monster", false, false)) {

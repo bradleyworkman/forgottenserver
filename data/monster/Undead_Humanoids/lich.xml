@@ -82,6 +82,5 @@
 		<item name="strong mana potion" chance="7500" />
 		<item name="lightning boots" chance="200" />
 		<item name="small topaz" countmax="3" chance="2430" />
-		<item name="maxilla maximus" chance="100" />
 	</loot>
 </monster>

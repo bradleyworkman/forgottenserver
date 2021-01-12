@@ -55,7 +55,9 @@
 		<voice sentence="Give in!"/>
 	</voices>
 	<summons maxSummons="2">
+		<!-- TODO add phantasm summon back in 
 		<summon name="Phantasm Summon" interval="3000" chance="20" max="2"/>
+		-->
 	</summons>
 	<loot>
 		<item id="2148" countmax="96" chance="58000"/><!-- gold coin -->

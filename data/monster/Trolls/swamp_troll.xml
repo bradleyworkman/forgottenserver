@@ -43,6 +43,5 @@
 		<item name="troll green" chance="1200" />
 		<item id="5901" chance="2140" /><!-- wood -->
 		<item name="swamp grass" chance="3100" />
-		<item name="medicine pouch" chance="2160" />
 	</loot>
 </monster>
