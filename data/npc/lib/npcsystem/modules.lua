@@ -39,6 +39,8 @@ if Modules == nil then
 	-- Usage:
 		-- keywordHandler:addKeyword({"offer"}, StdModule.say, {npcHandler = npcHandler, text = "I sell many powerful melee weapons."})
 	function StdModule.say(cid, message, keywords, parameters, node)
+		print("StdModule.say::cid: ", cid)
+
 		local npcHandler = parameters.npcHandler
 		if npcHandler == nil then
 			error("StdModule.say called without any npcHandler instance.")

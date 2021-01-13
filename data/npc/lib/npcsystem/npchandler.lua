@@ -187,6 +187,10 @@ if NpcHandler == nil then
 			shop_premium[focus] = nil
 		end
 
+		print("releaseFocus::self ",self)
+		print("releaseFocus::self.eventDelayedSay ", self.eventDelayedSay)
+		print("releaseFocus::self.eventDelayedSay[focus] ", self.eventDelayedSay[focus])
+
 		if self.eventDelayedSay[focus] then
 			self:cancelNPCTalk(self.eventDelayedSay[focus])
 		end
@@ -344,7 +348,7 @@ if NpcHandler == nil then
 					local playerName = player and player:getName() or -1
 					local parseInfo = { [TAG_PLAYERNAME] = playerName }
 					msg = self:parseMessage(msg, parseInfo)
-					self:say(msg, cid, true)
+					self:say(msg, cid)
 				else
 					return
 				end
@@ -577,49 +581,63 @@ if NpcHandler == nil then
 		events = nil
 	end
 
-	function NpcHandler:doNPCTalkALot(msgs, interval, pcid)
-		if self.eventDelayedSay[pcid] then
-			self:cancelNPCTalk(self.eventDelayedSay[pcid])
+	function NpcHandler:doNPCTalkALot(msgs, interval, playerID, publicize, callback)
+		local ret = {}
+		local npcID = getNpcCid()
+
+		if self.eventDelayedSay[playerID] then
+			self:cancelNPCTalk(self.eventDelayedSay[playerID])
 		end
 
-		self.eventDelayedSay[pcid] = {}
-		local ret = {}
+		self.eventDelayedSay[playerID] = {}
+
 		for aux = 1, #msgs do
-			self.eventDelayedSay[pcid][aux] = {}
-			doCreatureSayWithDelay(getNpcCid(), msgs[aux], TALKTYPE_PRIVATE_NP, ((aux-1) * (interval or 4000)) + 700, self.eventDelayedSay[pcid][aux], pcid)
-			ret[#ret + 1] = self.eventDelayedSay[pcid][aux]
+			self.eventDelayedSay[playerID][aux] = {}
+			doCreatureSayWithDelay(npcID, msgs[aux], publicize and TALKTYPE_SAY or TALKTYPE_PRIVATE_NP, ((aux-1) * (interval or 4000)) + 700, self.eventDelayedSay[playerID][aux], playerID)
+			ret[#ret + 1] = self.eventDelayedSay[playerID][aux]
 		end
+
+		if callback then
+			addEvent(callback, ((#msgs) * (interval or 4000)) + 700, npcID, playerID)
+		end
+
 		return(ret)
 	end
 
 	-- Makes the npc represented by this instance of NpcHandler say something.
 	--	This implements the currently set type of talkdelay.
 	--	shallDelay is a boolean value. If it is false, the message is not delayed. Default value is true.
-	function NpcHandler:say(message, focus, publicize, shallDelay, delay)
-		if type(message) == "table" then
-			return self:doNPCTalkALot(message, delay or 6000, focus)
-		end
-
-		if self.eventDelayedSay[focus] then
-			self:cancelNPCTalk(self.eventDelayedSay[focus])
-		end
-
+	function NpcHandler:say(message, playerID, publicize, shallDelay, delay, callback)
+		local delay = delay or (self.talkDelayTime * 1000)
+		local publicize = publicize and true or false
 		local shallDelay = not shallDelay and true or shallDelay
+
+		if type(message) == "table" then
+			return self:doNPCTalkALot(message, delay, playerID, publicize, callback)
+		end
+
+		if self.eventDelayedSay[playerID] then
+			self:cancelNPCTalk(self.eventDelayedSay[playerID])
+		end
+
 		if NPCHANDLER_TALKDELAY == TALKDELAY_NONE or shallDelay == false then
-			selfSay(message, focus, publicize and true or false)
+			selfSay(message, playerID, publicize and TALKTYPE_SAY or TALKTYPE_PRIVATE_NP)
 			return
 		end
 
-		stopEvent(self.eventSay[focus])
-		self.eventSay[focus] = addEvent(function(npcId, message, focusId)
-			local npc = Npc(npcId)
-			if npc == nil then
-				return
+		stopEvent(self.eventSay[playerID])
+		self.eventSay[playerID] = addEvent(function(npcID)
+			local npc = Npc(npcID)
+			local player = Player(playerID)
+
+			if npc and player then
+				npc:say(message, publicize and TALKTYPE_SAY or TALKTYPE_PRIVATE_NP, false, player, npc:getPosition())
 			end
-			local player = Player(focusId)
-			if player then
-				npc:say(message, TALKTYPE_PRIVATE_NP, false, player, npc:getPosition())
+
+			if callback then
+				callback(npcID, playerID)
 			end
-		end, self.talkDelayTime * 1000, Npc():getId(), message, focus)
+
+		end, delay, getNpcCid())
 	end
 end

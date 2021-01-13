@@ -1,3 +1,4 @@
+- did npcs idle talk in 8.6? not on wiki until 8.7; find it in the update notes or tibiacams
 - start off on tutorial island, complete tutorial
 - add default NPC script to config; remove references to default.lua in NPC files, remove references to empty NPC files
 - find out original starter outfit (v8.6), set in schema.sql as default
