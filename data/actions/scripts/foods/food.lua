@@ -29,7 +29,7 @@ function onUse(cid, item, fromPosition, itemEx, toPosition)
 			fromPosition = getThingPosition(cid)
 		end
 
-		doCreatureSay(cid, getPlayerName(cid) .. " blew out the candle.", TALKTYPE_MONSTER)
+		doCreatureSay(cid, getPlayerName(cid) .. " blew out the candle.", TALKTYPE_MONSTER_SAY)
 		doTransformItem(item.uid, item.itemid - 1)
 
 		doSendMagicEffect(fromPosition, CONST_ME_POFF)
@@ -42,7 +42,7 @@ function onUse(cid, item, fromPosition, itemEx, toPosition)
 	end
 
 	local size = food[1]
-	if(getPlayerFood(cid) + size > MAX_FOOD) then
+	if (getPlayerFood(cid) + size > MAX_FOOD) then
 		doPlayerSendCancel(cid, "You are full.")
 		return true
 	end
@@ -50,6 +50,6 @@ function onUse(cid, item, fromPosition, itemEx, toPosition)
 	doPlayerFeed(cid, size)
 	doRemoveItem(item.uid, 1)
 
-	doCreatureSay(cid, food[2], TALKTYPE_MONSTER)
+	doCreatureSay(cid, food[2], TALKTYPE_MONSTER_SAY)
 	return true
 end

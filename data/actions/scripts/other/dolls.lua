@@ -78,6 +78,6 @@ function onUse(cid, item, fromPosition, itemEx, toPosition)
 		sound = sound .. getCreatureName(cid) .. "."
 	end
 
-	doCreatureSay(cid, sound, TALKTYPE_MONSTER, false, 0, fromPosition)
+	doCreatureSay(cid, sound, TALKTYPE_MONSTER_SAY, false, 0, fromPosition)
 	return true
 end

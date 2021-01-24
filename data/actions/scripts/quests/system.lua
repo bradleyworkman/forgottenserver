@@ -91,8 +91,9 @@ function onUse(cid, item, fromPosition, itemEx, toPosition)
 		result = "You have found " .. result .. "."
 		setPlayerStorageValue(cid, storage, 1)
 		if(questsExperience[storage] ~= nil) then
-			doPlayerAddExp(cid, questsExperience[storage])
-			doSendAnimatedText(getCreaturePosition(cid), questsExperience[storage], TEXTCOLOR_WHITE)
+			local player = Player(cid)
+			player:addExperience(questsExperience[storage])
+			doSendAnimatedText(player:getPosition(), questsExperience[storage], TEXTCOLOR_WHITE)
 		end
 	end
 

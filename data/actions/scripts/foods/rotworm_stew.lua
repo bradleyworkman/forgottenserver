@@ -14,6 +14,6 @@ function onUse(cid, item, fromPosition, itemEx, toPosition)
 	doCreatureAddHealth(cid, getCreatureMaxHealth(cid) - getCreatureHealth(cid))
 	doRemoveItem(item.uid, 1)
 
-	doCreatureSay(cid, food, TALKTYPE_MONSTER)
+	doCreatureSay(cid, food, TALKTYPE_MONSTER_SAY)
 	return true
 end

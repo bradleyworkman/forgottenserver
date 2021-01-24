@@ -20,9 +20,9 @@ function onUse(cid, item, fromPosition, itemEx, toPosition)
         end
         if(os.clock() - getPlayerStorageValue(cid, config.timeStorage)) > config.timeBetweenUse then
                 if(getTilePzInfo(getCreaturePosition(cid)) == true) then
-                        doCreatureSay(cid, "It tightens around your wrist as you take it on.", TALKTYPE_MONSTER)
+                        doCreatureSay(cid, "It tightens around your wrist as you take it on.", TALKTYPE_MONSTER_SAY)
                 else
-                        doCreatureSay(cid, "Ouch! The serpent claw stabbed you.", TALKTYPE_MONSTER)
+                        doCreatureSay(cid, "Ouch! The serpent claw stabbed you.", TALKTYPE_MONSTER_SAY)
                         doCreatureAddHealth(cid, -config.damage)
                         doSendAnimatedText(getCreaturePosition(cid), config.damage, TEXTCOLOR_RED)
                 end
