@@ -1,6 +1,6 @@
 require 'data/npc/lib/ShopKeeper'
 
-local al_dee = ShopKeeper({'hello','hi'}, 'Hello, hello, |PLAYERNAME|! Please come in, look, and buy! I\'m a specialist for all sorts of {tools}. Just ask me for a {trade} to see my offers! You can also ask me for general {hints} about the game.', 'Bye, bye |PLAYERNAME|.')
+local al_dee = ShopKeeper({'hi','hello'}, 'Hello, hello, |PLAYERNAME|! Please come in, look, and buy! I\'m a specialist for all sorts of {tools}. Just ask me for a {trade} to see my offers! You can also ask me for general {hints} about the game.', 'Bye, bye |PLAYERNAME|.')
 
 function onCreatureAppear(...)      al_dee:onCreatureAppear(...)      end
 function onCreatureDisappear(...)   al_dee:onCreatureDisappear(...)   end
@@ -65,4 +65,3 @@ engine.all.connect('Willie',engine.State('This is a local farmer. If you need fr
 engine.all.connect('Zirella',engine.State('Poor old woman, her son {Tom} never visits her.'))
 
 engine.all.to('bye', engine.State('Bye, bye |PLAYERNAME|.'))
-
