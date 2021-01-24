@@ -84,6 +84,45 @@ function Player.sendExtendedOpcode(self, opcode, buffer)
 	return true
 end
 
+function Player:removeTotalMoney(amount)
+    local moneyCount = self:getMoney()
+    local bankCount = self:getBankBalance()
+
+    if amount > (moneyCount + bankCount) then return false end
+
+    local message = nil
+
+    if moneyCount > 0 then
+        -- if they had money on them, remove from there first
+        local r = math.max(moneyCount, amount)
+        self:removeMoney(r)
+
+        message = ("Paid %d gold from inventory"):format(r)
+    end
+
+    if amount > moneyCount then
+        -- need to withdraw from bank as well
+        self:setBankBalance(bankCount + moneyCount - amount)
+
+        if  message then
+            message = ("%s and "):format(message)
+        else
+            message = "Paid "
+        end
+
+        message = ("%s%d gold from bank account"):format(message, amount - moneyCount)
+    end
+
+    message = ("%s. Your account balance is now %d gold."):format(message, self:getBankBalance())
+    self:sendTextMessage(MESSAGE_INFO_DESCR, message)
+    
+    return true
+end
+
+function Player:getTotalMoney()
+    return self:getMoney() + self:getBankBalance()
+end
+
 APPLY_SKILL_MULTIPLIER = true
 local addSkillTriesFunc = Player.addSkillTries
 function Player.addSkillTries(...)
