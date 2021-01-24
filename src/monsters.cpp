@@ -98,16 +98,10 @@ void Monsters::loadFromXml(bool reloading /*= false*/)
 {
 	for (const auto& file : std::filesystem::recursive_directory_iterator("data/monster")) {
 
-//std::cout << "observing..." << file.path().string() << std::endl;
-
 		if (!file.is_regular_file()) continue;
 		if (file.path().extension().string() != ".xml") continue;
 
-//std::cout << "loading..." << file.path().string() << std::endl;
-
 		std::string name = getNameFromXmlFile(file.path().string());
-
-//std::cout << "found '" << asLowerCaseString(name) << "'" << std::endl;
 
 		auto it = monsters.find(asLowerCaseString(name));
 		if (it != monsters.end()) {
