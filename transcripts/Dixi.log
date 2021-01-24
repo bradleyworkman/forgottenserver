@@ -1,0 +1,70 @@
+<i>You see a blackboard.<br/>
+You read: HELMETS:<br/>
+leather helmet<br/>
+chain helmet<br/>
+studded helmet<br/>
+SHIELDS:<br/>
+wooden shield<br/>
+studded shield<br/>
+
+You see a blackboard.<br/>
+You read: ARMORS:<br/>
+jacket<br/>
+coat<br/>
+doublet<br/>
+leather armor<br/>
+leather legs<br/>
+
+You see a blackboard.<br/>
+You read: WEAPONS:<br/>
+spear, dagger<br/>
+hand axe<br/>
+axe, rapier<br/>
+sabre<br/>
+short sword<br/>
+
+You see a blackboard.<br/>
+You read: GENERAL EQUIPMENT:<br/>
+rope, torch,<br/>
+bag, backpack,<br/>
+scroll, sickle,<br/>
+shovel, pick, scythe,<br/>
+fishing rod<br/>
+
+You see a sign.<br/>
+You read: Upper Shop</i>
+
+{{Infobox Transcript|
+''Player'': '''hi'''<br/>
+[[Dixi]]: Hello, Mam. How may I help you, ''Player''.<br/>
+
+''Player'': '''help'''<br/>
+Dixi: If you need something, please let me know.<br/>
+
+''Player'': '''job'''<br/>
+Dixi: I'm helping my grandfather [[Obi]] with this shop. Do you want to buy or sell anything?<br/>
+
+''Player'': '''name'''<br/>
+Dixi: I'm Dixi.<br/>
+
+''Player'': '''sell'''<br/>
+Dixi: We're selling many things. Please have a look at the blackboards downstairs to see a list of our inventory.<br/>
+
+''Player'': '''weapon'''<br/>
+Dixi: We sell spears, rapiers, sabres, daggers, hand axes, axes, and short swords. Just tell me what you want to buy.<br/>
+
+''Player'': '''armor'''<br/>
+Dixi: We sell jackets, coats, doublets, leather armor, and leather legs. Just tell me what you want to buy.<br/>
+
+''Player'': '''helmets'''<br/>
+Dixi: We sell leather helmets, studded helmets, and chain helmets. Just tell me what you want to buy.<br/>
+
+''Player'': '''equipment'''<br/>
+Dixi: We sell torches, bags, scrolls, shovels, picks, backpacks, sickles, scythes, ropes, fishing rods and sixpacks of worms. Just tell me what you want to buy.<br/>
+
+''Player'': '''bye'''<br/>
+Dixi: Good bye, Mam.<br/>
+
+''Player'': '''hi'''<br/>
+Dixi: Hello, Mam. How may I help you, ''Player''.<br/>
+Dixi: Good bye.}}

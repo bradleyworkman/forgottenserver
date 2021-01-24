@@ -1,0 +1,76 @@
+{{Infobox Transcript|
+''Player'': anything<br>
+Cipfried: ''Player'', please be polite and start a conversation with a 'hello' or a 'hi'.<br>
+
+''Player'': anything (if the player has less than 65 [[hp]])<br>
+Cipfried: Hello, ''Player''! You are looking really bad. Let me [[Healing|heal]] your wounds.
+
+''Player'': anything (if the player is burning)<br>
+Cipfried: Oh ''Player'', you are [[burning]]! I will help you.
+
+''Player'': '''hi''' or '''hello'''<br>
+Cipfried: Hello, ''Player''! I will heal you if you are injured. Feel free to ask me for help.<br>
+
+''Player'': '''heal''' (if the player is poisoned)<br>
+Cipfried: You are [[poisoned]]. I will help you.<br>
+
+''Player'': '''heal'''<br>
+Cipfried: You aren't looking really bad, ''Player''. I only help in cases of real emergencies. Raise your health simply by eating [[food]].<br>
+
+''Player'': '''name'''<br>
+Cipfried: My name is Cipfried.<br>
+
+''Player'': '''job'''<br>
+Cipfried: I am just a humble monk. Ask me if you need help or healing.<br>
+
+''Player'': '''quest'''<br>
+Cipfried: [[Creatures|Monsters]] are a constant threat. Learn to fight by hunting [[rabbit]]s, [[deer]] and [[sheep]]. Then try to fight [[rat]]s, [[bug]]s and perhaps [[spider]]s.<br>
+
+''Player'': '''time'''<br>
+Cipfried: Now, it is ''h'':''mm'' am/pm, my child.<br>
+
+''Player'': '''god'''<br>
+Cipfried: They created [[Tibia]] and all life on it. Visit our library and learn about them.<br>
+
+''Player'': '''[[Al Dee]]''' or '''[[Obi]]'''<br>
+Cipfried: He is a local shop owner.<br>
+
+''Player'': '''[[Seymour]]'''<br>
+Cipfried: Seymour is a loyal follower of the king and responsible for the academy.<br>
+
+''Player'': '''[[Willie]]'''<br>
+Cipfried: Willie is a fine farmer. His farm is located to the left of the temple.<br>
+
+''Player'': '''Tibia'''<br>
+Cipfried: That's where we are. The world of Tibia.<br>
+
+''Player'': '''[[Rookgaard]]'''<br>
+Cipfried: The gods have chosen this isle as the point of arrival for the newborn souls.<br>
+
+''Player'': '''rat''' or '''sewer'''<br>
+Cipfried: In the north of this temple you find a sewer grate. Use it to enter the sewers if you feel prepared. Don't forget a [[torch]]; you'll need it.<br>
+
+''Player'': '''spiders'''<br>
+Cipfried: If you face spiders, beware of the poisonous ones. If you are poisoned, you will constantly lose health. Come to me and I'll heal you from poison.<br>
+
+''Player'': '''[[money]]'''<br>
+Cipfried: If you need money, you have to slay monsters and take their gold. Look for spiders and rats.<br>
+
+''Player'': '''king'''<br>
+Cipfried: Well, King Tibianus of course. The island of Rookgaard belongs to his kingdom.<br>
+
+''Player'': '''gods'''<br>
+Cipfried: They created Tibia and all life on it. Visit our academy and learn about them.<br>
+
+''Player:'' '''monster'''<br>
+Cipfried: Monsters are a constant threat. Learn to fight by hunting rabbits, deer and sheep. Then try to fight rats, bugs and perhaps spiders.<br>
+
+''Player:'' '''academy'''<br>
+Cipfried: You should visit Seymour in the academy and ask him about a [[Quests|mission]].<br>
+
+''Player:'' '''bye'''<br>
+Cipfried: Farewell, ''Player''!<br>
+
+''Player:'' nothing<br>
+Cipfried: Well, bye then.
+}}
