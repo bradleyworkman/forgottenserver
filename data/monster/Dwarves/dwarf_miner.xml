@@ -1,3 +1,4 @@
+<!-- TODO does not appear in map-spawn.xml -->
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <monster name="Dwarf Miner" nameDescription="a dwarf miner" race="blood" experience="60" speed="210" manacost="420">
 	<health now="120" max="120" />

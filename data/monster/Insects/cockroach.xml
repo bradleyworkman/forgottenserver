@@ -1,3 +1,4 @@
+<!-- TODO this monster does not appear in map-spawn.xml -->
 <?xml version="1.0" encoding="UTF-8"?>
 <monster name="Cockroach" nameDescription="a cockroach" race="venom" experience="0" speed="100" manacost="0">
 	<health now="1" max="1"/>

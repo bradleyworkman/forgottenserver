@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<!-- TODO this monster does not appear in map-spawn.xml and they should be the most common butterfly -->
+<?xml version="1.0" encoding="UTF-8"?>
 <monster name="Purple Butterfly" nameDescription="a butterfly" race="venom" experience="0" speed="230">
 	<health now="2" max="2" />
 	<look type="213" corpse="4993" />
