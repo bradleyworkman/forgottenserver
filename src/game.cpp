@@ -2684,6 +2684,10 @@ void Game::playerPurchaseItem(uint32_t playerId, uint16_t spriteId, uint8_t coun
 		return;
 	}
 
+	if (count == 0 || count > 100) {
+		return;
+	}
+
 	Player* player = getPlayerByID(playerId);
 	if (!player) {
 		return;
@@ -2743,6 +2747,10 @@ void Game::playerSellItem(uint32_t playerId, uint16_t spriteId, uint8_t count, u
 		subType = clientFluidToServer(count);
 	} else {
 		subType = count;
+	}
+
+	if (!player->hasShopItemForBuy(it.id, subType)) {
+		return;
 	}
 
 	merchant->onPlayerTrade(player, onSell, it.id, subType, amount, ignoreEquipped);

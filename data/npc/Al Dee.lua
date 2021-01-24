@@ -1,3 +1,4 @@
+<<<<<<< HEAD:data/npc/scripts/Al Dee.lua
 <<<<<<< HEAD
 local keywordHandler = KeywordHandler:new()
 local npcHandler = NpcHandler:new(keywordHandler)
@@ -92,12 +93,25 @@ npcHandler:setMessage(MESSAGE_GREET,	'Hello, hello, |PLAYERNAME|! Please come in
 npcHandler:addModule(FocusModule:new())
 =======
 local _npc_handler = NPCHandler()
+=======
+require "data/npc/lib/ShopKeeper"
+>>>>>>> 8b23778a (add new NPC system; comment out existing NPCs until they can be added back in):data/npc/Al Dee.lua
 
-function onCreatureAppear(cid)         _npc_handler:onCreatureAppear(cid)         end
-function onCreatureDisappear(cid)      _npc_handler:onCreatureDisappear(cid)      end
-function onCreatureSay(cid, type, msg) _npc_handler:onCreatureSay(cid, type, msg) end
-function onThink()                     _npc_handler:onThink()                     end
+local al_dee = ShopKeeper({'hi','hello'}, 'Hello, hello, |PLAYERNAME|! Please come in, look, and buy! I\'m a specialist for all sorts of {tools}. Just ask me for a {trade} to see my offers! You can also ask me for general {hints} about the game.')
 
+function onCreatureAppear(...)      al_dee:onCreatureAppear(...)      end
+function onCreatureDisappear(...)   al_dee:onCreatureDisappear(...)   end
+function onCreatureSay(...)         al_dee:onCreatureSay(...)         end
+function onThink(...)               al_dee:onThink(...)               end
+function onCreatureMove(...)        al_dee:onCreatureMove(...)        end
+function onPlayerCloseChannel(...)  al_dee:onPlayerCloseChannel(...)  end
+function onPlayerEndTrade(...)      al_dee:onPlayerEndTrade(...)      end
+
+local engine = al_dee.dialogEngine
+
+engine.all.to("bye", engine.State("good-bye |PLAYERNAME|"))
+
+--[[
 _npc_handler:setMessage('message_greet','Hello, hello, |PLAYERNAME|! Please come in, look, and buy! I\'m a specialist for all sorts of {tools}. Just ask me for a {trade} to see my offers! You can also ask me for general {hints} about the game.')
 keywordHandler:addKeyword({'tools'} , StdModule.say , {_npc_handler = _npc_handler, text = 'As an adventurer, you should always have at least a {backpack}, a {rope}, a {shovel}, a {weapon}, an {armor} and a {shield}.'})
 keywordHandler:addKeyword({'trade'} , StdModule.say , {_npc_handler = _npc_handler, text = 'Take a look in the trade window to your right.'})
@@ -176,4 +190,8 @@ keywordHandler:addKeyword({'bye'} , StdModule.say , {_npc_handler = _npc_handler
 _npc_handler:setMessage('message_walkaway', 'Bye, bye.')
 _npc_handler:setMessage('message_farewell', 'Bye, bye |PLAYERNAME|.')
 _npc_handler:setMessage('message_sendtrade', 'Take a look in the trade window to your left.')
+<<<<<<< HEAD:data/npc/scripts/Al Dee.lua
 >>>>>>> c321e7dc (- major refactor of NPC system (not working!))
+=======
+]]
+>>>>>>> 8b23778a (add new NPC system; comment out existing NPCs until they can be added back in):data/npc/Al Dee.lua

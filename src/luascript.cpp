@@ -873,7 +873,10 @@ Player* LuaScriptInterface::getPlayer(lua_State* L, int32_t arg)
 	if (isUserdata(L, arg)) {
 		return getUserdata<Player>(L, arg);
 	}
-	return g_game.getPlayerByID(getNumber<uint32_t>(L, arg));
+
+	uint32_t id = getNumber<uint32_t>(L, arg);
+
+	return g_game.getPlayerByID(id);
 }
 
 std::string LuaScriptInterface::getFieldString(lua_State* L, int32_t arg, const std::string& key)
@@ -1551,15 +1554,21 @@ void LuaScriptInterface::registerFunctions()
 	registerEnum(TALKTYPE_SAY)
 	registerEnum(TALKTYPE_WHISPER)
 	registerEnum(TALKTYPE_YELL)
-	registerEnum(TALKTYPE_CHANNEL_Y)
-	registerEnum(TALKTYPE_CHANNEL_O)
-	registerEnum(TALKTYPE_PRIVATE_NP)
 	registerEnum(TALKTYPE_PRIVATE_PN)
+	registerEnum(TALKTYPE_PRIVATE_NP)
+	registerEnum(TALKTYPE_PRIVATE)
+	registerEnum(TALKTYPE_CHANNEL_Y)
+	registerEnum(TALKTYPE_CHANNEL_W)
+	registerEnum(TALKTYPE_RVR_CHANNEL)
+	registerEnum(TALKTYPE_RVR_ANSWER)
+	registerEnum(TALKTYPE_RVR_CONTINUE)
 	registerEnum(TALKTYPE_BROADCAST)
-	registerEnum(TALKTYPE_CHANNEL_R1)
+	registerEnum(TALKTYPE_CHANNEL_R1) //red - #c text
+	registerEnum(TALKTYPE_PRIVATE_RED) //@name@text
+	registerEnum(TALKTYPE_CHANNEL_O) //@name@text
+	registerEnum(TALKTYPE_CHANNEL_R2) //#d
 	registerEnum(TALKTYPE_MONSTER_SAY)
 	registerEnum(TALKTYPE_MONSTER_YELL)
-	registerEnum(TALKTYPE_CHANNEL_R2)
 
 	registerEnum(TEXTCOLOR_BLACK)
 	registerEnum(TEXTCOLOR_BLUE)

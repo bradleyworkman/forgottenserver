@@ -150,7 +150,9 @@ enum SpeakClasses : uint8_t {
 	TALKTYPE_SAY = 1,
 	TALKTYPE_WHISPER = 2,
 	TALKTYPE_YELL = 3,
+	/* private talk from player to npc */
 	TALKTYPE_PRIVATE_PN = 4,
+	/* private talk from npc to player */
 	TALKTYPE_PRIVATE_NP = 5,
 	TALKTYPE_PRIVATE = 6,
 	TALKTYPE_CHANNEL_Y = 7,

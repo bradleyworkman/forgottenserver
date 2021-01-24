@@ -1,10 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<npc name="Al Dee" script="Al Dee.lua" walkinterval="2000" floorchange="0">
+<!--
+    {string}    name              -
+    {string}    script            - path under /data/ to the NPCs script file
+    {bool}      can-be-attacked   - default false
+    {uint32_t}  walk-interval     - milliseconds between random walks if !isIdle; default 1500
+    {bool}      floor-change      - true if the NPC can move between floors; default false
+    {uint32_t}  speed             - default 100
+    {bool}      can-be-pushed     -
+    {int32_t}   walk-radius       - default -1
+    {bool}      can-ignore-height - true if the NPC can get to positions above height 0 (ontop of boxes, furniture, etc.); default true
+    {string}    skull             - one of [none, yellow, green, white, red, black]; default None
+    {bool}      idle              - true if NPC is not randomly walking; default false
+    {uint32_t}  timeout           - milliseconds between talking when the NPC should timeout (go idle); default 120000
+    {uint32_t}  talk-delay        - milliseconds between NPC responses; default 1500
+    {int32_t}  listen-radius      - distance to listen to public chat on for greetings; default 4
+-->
+<npc name="Al Dee"
+    script="npc/Al Dee.lua"
+    can-be-attacked="false"
+    walk-interval="2000"
+    floor-change="false"
+    speed="100"
+    can-be-pushed="false"
+    walk-radius="-1"
+    can-ignore-height="true"
+    skull="none"
+    idle="false"
+    timeout="120000"
+    talk-delay="1500"
+    listen-radius="3"
+    >
+    <!--
+        {int32_t} now - current hitpoints; default 100
+        {int32_t} max - total hitpoints; default 100
+    -->
 	<health now="100" max="100" />
+    <!-- 
+        TODO figure out valid values for typeex
+        {uint16_t} type
+        {uint16_t} head
+        {uint16_t} body
+        {uint16_t} legs
+        {uint16_t} feet
+        {uint16_t} addons
+                OR
+        {uint16_t} typeex
+    -->
 	<look type="129" head="97" body="77" legs="87" feet="115" addons="0" />
-	<parameters>
-		<parameter key="module_shop" value="1" />
-		<parameter key="shop_buyable" value="backpack,1988,10;bag,1987,4;fishing rod,2580,150;rope,2120,50;scroll,1949,5;scythe,2550,12;shovel,2554,10;torch,2050,2;worm,3976,1" />
-		<parameter key="shop_sellable" value="fishing rod,2580,30;rope,2120,8;shovel,2554,2" />
-	</parameters>
+	<shop>
+        <!--
+            shop-item
+            {uint16_t}      id         - item id to trade
+            {int32_t}       type       - subtype id (used for runes and fluids)
+            {uint32_t}      buy-price  - price the NPC will buy an item for
+            {uint32_t}      sell-price - price the NPC will sell an item for
+            {std::string}   name       - name to display on the client
+
+            shop-item is required to have at least one of {buy-price, sell-price} and at least one of {id, name}
+        -->
+        <shop-item name="Backpack" sell-price="10"/>
+        <shop-item id="1987" name="Bag" sell-price="4"/>
+        <shop-item name="Fishing Rod" sell-price="150" buy-price="30" />
+        <shop-item id="8712" name="Rope" sell-price="50" buy-price="8"/>
+        <shop-item id="1949" name="Scroll" sell-price="5"/>
+        <shop-item name="Scythe" sell-price="12"/>
+        <shop-item id="8711" name="Shovel" sell-price="10" buy-price="2"/>
+        <shop-item id="2050" name="Torch" sell-price="2"/>
+        <shop-item name="Worm" sell-price="1"/>
+    </shop>
 </npc>

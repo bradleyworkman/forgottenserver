@@ -52,17 +52,20 @@ class NpcScriptInterface final : public LuaScriptInterface
 		static int luagetDistanceTo(lua_State* L);
 		static int luaSetNpcFocus(lua_State* L);
 		static int luaGetNpcCid(lua_State* L);
-		static int luaGetNpcParameter(lua_State* L);
 		static int luaOpenShopWindow(lua_State* L);
 		static int luaCloseShopWindow(lua_State* L);
 		static int luaDoSellItem(lua_State* L);
 
 		// metatable
-		static int luaNpcGetParameter(lua_State* L);
 		static int luaNpcSetFocus(lua_State* L);
-
 		static int luaNpcOpenShopWindow(lua_State* L);
 		static int luaNpcCloseShopWindow(lua_State* L);
+
+		static int luaNpcGetListenRadius(lua_State* L);
+		static int luaNpcGetTimeout(lua_State* L);
+		static int luaNpcGetTalkDelay(lua_State* L);
+
+		static int luaNpcGetShopItems(lua_State* L);
 
 	private:
 		bool initState() override;
@@ -153,9 +156,22 @@ class Npc final : public Creature
 
 		void doMoveTo(const Position& pos);
 
+		uint32_t getTimeout() const {
+			return timeout;
+		}
+
+		uint32_t getTalkDelay() const {
+			return talkDelay;
+		}
+
+		int32_t getListenRadius() const {
+			return listenRadius;
+		}
+
 		int32_t getMasterRadius() const {
 			return masterRadius;
 		}
+
 		const Position& getMasterPos() const {
 			return masterPos;
 		}
@@ -214,7 +230,7 @@ class Npc final : public Creature
 		void removeShopPlayer(Player* player);
 		void closeAllShopWindows();
 
-		std::map<std::string, std::string> parameters;
+		std::list<ShopInfo> shop;
 
 		std::set<Player*> shopPlayerSet;
 		std::set<Player*> spectators;
@@ -229,6 +245,9 @@ class Npc final : public Creature
 		uint32_t walkTicks;
 		int32_t focusCreature;
 		int32_t masterRadius;
+		int32_t listenRadius;
+		uint32_t talkDelay;
+		uint32_t timeout;
 
 		uint8_t speechBubble;
 
