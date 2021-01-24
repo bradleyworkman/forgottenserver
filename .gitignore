@@ -20,6 +20,11 @@ build/
 [Bb]in/
 [Oo]bj/
 
+# Byte-compiled / optimized / DLL files
+*__pycache__/
+*.py[cod]
+*$py.class
+
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
