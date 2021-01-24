@@ -371,6 +371,14 @@ getCreaturePos = getCreaturePosition
 function doCreatureAddHealth(cid, health) local c = Creature(cid) return c and c:addHealth(health) or false end
 function doRemoveCreature(cid) local c = Creature(cid) return c and c:remove() or false end
 function doCreatureSetLookDir(cid, direction) local c = Creature(cid) return c and c:setDirection(direction) or false end
+
+doSetCreatureDirection = doCreatureSetLookDir
+doCreatureSetLookDirection = doCreatureSetLookDir
+
+function doCreatureGetLookDir(cid) local c = Creature(cid) return c and c:getDirection(direction) or false end
+
+getCreatureLookDirection = doCreatureGetLookDir
+
 function doCreatureSay(cid, text, type, ...) local c = Creature(cid) return c and c:say(text, type, ...) or false end
 function doCreatureChangeOutfit(cid, outfit) local c = Creature(cid) return c and c:setOutfit(outfit) or false end
 function doSetCreatureDropLoot(cid, doDrop) local c = Creature(cid) return c and c:setDropLoot(doDrop) or false end
@@ -378,9 +386,6 @@ function doChangeSpeed(cid, delta) local c = Creature(cid) return c and c:change
 function doAddCondition(cid, conditionId) local c = Creature(cid) return c and c:addCondition(conditionId) or false end
 function doRemoveCondition(cid, conditionType, subId) local c = Creature(cid) return c and (c:removeCondition(conditionType, CONDITIONID_COMBAT, subId) or c:removeCondition(conditionType, CONDITIONID_DEFAULT, subId) or true) end
 function getCreatureCondition(cid, type, subId) local c = Creature(cid) return c and c:hasCondition(type, subId) or false end
-
-doSetCreatureDirection = doCreatureSetLookDir
-
 function registerCreatureEvent(cid, name) local c = Creature(cid) return c and c:registerEvent(name) or false end
 function unregisterCreatureEvent(cid, name) local c = Creature(cid) return c and c:unregisterEvent(name) or false end
 
@@ -602,17 +607,7 @@ function doSendTutorial(cid, tutorialId) local p = Player(cid) return p and p:se
 function doAddMapMark(cid, pos, type, description) local p = Player(cid) return p and p:addMapMark(pos, type, description or "") or false end
 function doPlayerSendTextMessage(cid, type, text, ...) local p = Player(cid) return p and p:sendTextMessage(type, text, ...) or false end
 function doSendAnimatedText() debugPrint("Deprecated function.") return true end
-function doPlayerAddExp(cid, exp, useMult, ...)
-	local player = Player(cid)
-	if player == nil then
-		return false
-	end
 
-	if useMult then
-		exp = exp * Game.getExperienceStage(player:getLevel())
-	end
-	return player:addExperience(exp, ...)
-end
 function doPlayerAddManaSpent(cid, mana) local p = Player(cid) return p and p:addManaSpent(mana) or false end
 function doPlayerAddSkillTry(cid, skillid, n) local p = Player(cid) return p and p:addSkillTries(skillid, n) or false end
 function doPlayerAddMana(cid, mana, ...) local p = Player(cid) return p and p:addMana(mana, ...) or false end
@@ -1015,6 +1010,8 @@ function getTopCreature(position)
 end
 
 function queryTileAddThing(thing, position, ...) local t = Tile(position) return t and t:queryAdd(thing, ...) or false end
+
+doTileQueryAdd = queryTileAddThing
 
 function doTeleportThing(uid, dest, pushMovement)
 	if type(uid) == "userdata" then
