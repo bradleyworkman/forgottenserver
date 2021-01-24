@@ -335,7 +335,7 @@ def main(args):
     if not isinstance(log_level, int):
         raise ValueError('Invalid log level: %s'%args.log_level)
 
-    logging.basicConfig(filename=args.out, format='%(levelname)s:%(message)s', level=log_level)
+    logging.basicConfig(filename=args.log_out, format='%(levelname)s:%(message)s', level=log_level)
     logging.debug(args)
 
     print(from_wiki_log(args.file))
@@ -350,7 +350,7 @@ if (__name__ == '__main__'):
     parser.add_argument("--version","-v", action="version", version="%%(prog)s %s"%Configuration.VERSION)
     parser.add_argument("--license", "-l", action=LicenseAction, help="show program's license and exit")
     parser.add_argument("--log-level", required=False, metavar="<level>", help= "set the logging level to one of [DEBUG,INFO,WARNING,ERROR,CRITICAL]", default="INFO", dest="log_level")
-    parser.add_argument("--out-file", "-o", metavar="<file>", required=False, help="output file for logging", dest="out")
+    parser.add_argument("--log-file", "-o", metavar="<file>", required=False, help="output file for logging", dest="log_out")
     parser.add_argument("file", metavar="<transcript-file>", help="input file to process as transcript")
 
     args = parser.parse_args()
