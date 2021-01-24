@@ -431,11 +431,7 @@ if not ShopKeeper then
 
                 return nil
                 ]]
-
-                if not _shop_keeper:is_trading(player) then
-                    selfSay(_shop_keeper.messages.ON_TRADE, player)
-                    _shop_keeper:_do(player, BEGIN_TRADE)
-                end
+                _shop_keeper:_do(player, BEGIN_TRADE)
             end
 
         _shop_keeper.dialogEngine.all.connect("trade", on_trade)
@@ -449,6 +445,7 @@ if not ShopKeeper then
 
                 return nil
                 ]]
+                selfSay(_shop_keeper.messages.ON_TRADE, player)
                 _shop_keeper:open_shop_window(player)
             end
 

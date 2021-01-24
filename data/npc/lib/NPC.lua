@@ -1,5 +1,6 @@
 require 'data/npc/lib/DialogEngine'
 
+-- TODO remove this 
 logging.level = DEBUG
 
 function isPrivateChannel(type_)
@@ -169,6 +170,8 @@ if not NPC then
             This is an internal function for advancing this NPC state machine, if the NPC is aware of the player and they have performed an action that connects another state with the current one, then we leave the current state (call on_exit) and move to the new one (call on_enter)
             ]]
             _current_state = self._active_states:__get(player)
+
+            if not _current_state then return end
 
             _next_state = _current_state.edges[action]
 
