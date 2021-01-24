@@ -4646,6 +4646,7 @@
 		<attribute key="weight" value="30" />
 	</item>
 	<item id="2696" name="cheese">
+		<!-- TODO dont pass an attribute subtag, just pass an attribute on parent tag.... -->
 		<attribute key="weight" value="400" />
 	</item>
 	<item id="2697" article="a" name="snowy dead tree" />

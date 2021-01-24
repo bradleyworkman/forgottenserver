@@ -214,9 +214,6 @@ function Player:onGainExperience(source, exp, rawExp)
 		self:addCondition(soulCondition)
 	end
 
-	-- Apply experience stage multiplier
-	exp = exp * Game.getExperienceStage(self:getLevel())
-
 	-- Stamina modifier
 	if configManager.getBoolean(configKeys.STAMINA_SYSTEM) then
 		useStamina(self)
