@@ -2,6 +2,8 @@ require 'data/npc/lib/ShopKeeper'
 
 local al_dee = ShopKeeper({'hi','hello'}, 'Hello, hello, |PLAYERNAME|! Please come in, look, and buy! I\'m a specialist for all sorts of {tools}. Just ask me for a {trade} to see my offers! You can also ask me for general {hints} about the game.', 'Bye, bye |PLAYERNAME|.')
 
+al_dee.messages.ON_TRADE = 'Take a look in the trade window to your right.'
+
 function onCreatureAppear(...)      al_dee:onCreatureAppear(...)      end
 function onCreatureDisappear(...)   al_dee:onCreatureDisappear(...)   end
 function onCreatureSay(...)         al_dee:onCreatureSay(...)         end
@@ -13,10 +15,9 @@ function onPlayerEndTrade(...)      al_dee:onPlayerEndTrade(...)      end
 local engine = al_dee.dialogEngine
 
 engine.all.connect('tools',engine.State('As an adventurer, you should always have at least a {backpack}, a {rope}, a {shovel}, a {weapon}, an {armor} and a {shield}.'))
-engine.all.connect('trade',engine.State('Take a look in the trade window to your right.'))
 engine.all.connect({'backpack','rope','shovel'},engine.State('Yes, I am selling that. Simply ask me for a {trade} to view all my offers.'))
-engine.all.connect('weapon',engine.State('Oh, I\'m sorry, but I don\'t deal with weapons. That\'s {Obi\'s} or {Lee\'Delle\'s} business. I could offer you a {pick} in exchange for a {small axe} if you should happen to own one.'))
-engine.all.connect({'armor','shield'},engine.State('Armor and shields can be bought at {Dixi\'s} or at {Lee\'Delle\'s}. Dixi runs that shop near {Obi\'s}.'))
+engine.all.connect('weapon',engine.State('Oh, I\'m sorry, but I don\'t deal with weapons. That\'s {Obi}\'s or {Lee\'Delle}\'} business. I could offer you a {pick} in exchange for a {small axe} if you should happen to own one.'))
+engine.all.connect({'armor','shield'},engine.State('Armor and shields can be bought at {Dixi}\'s or at {Lee\'Delle}\'s. Dixi runs that shop near {Obi}\'s.'))
 engine.all.connect('food',engine.State('Hmm, the best address to look for food might be {Willie} or {Billy}. {Norma} also has some snacks for sale.'))
 engine.all.connect('potions',engine.State('Sorry, I don\'t sell potions. You should visit {Lily} for that.'))
 engine.all.connect({'cookies','fishing'},engine.State('I sell fishing rods and worms if you want to fish. Simply ask me for a {trade}.'))
@@ -29,7 +30,10 @@ engine.all.connect('premium',engine.State('As a premium adventurer you have many
 engine.all.connect('king',engine.State('The king encouraged salesmen to travel here, but only I dared to take the risk, and a risk it was!'))
 engine.all.connect('sell',engine.State('Just ask me for a {trade} to see what I buy from you.'))
 engine.all.connect({'wares','stuff'},engine.State('Just ask me for a {trade} to see my offers.'))
+
+-- TODO add quest nodes after this node
 engine.all.connect({'pick','small axe'},engine.State('Picks are hard to come by. I trade them only in exchange for high quality small axes. Would you like to make that deal?'))
+
 engine.all.connect('dungeon',engine.State('If you want to explore the dungeons such as the {sewers}, you have to {equip} yourself with the {vital} stuff I am selling. It\'s vital in the deepest sense of the word.'))
 engine.all.connect('sewers',engine.State('Oh, our sewer system is very primitive - it\'s so primitive that it\'s overrun by {rats}. But the stuff I sell is safe from them. Just ask me for a {trade} to see it!'))
 engine.all.connect('vital',engine.State('Well, vital means - necessary for you to survive!'))
@@ -52,7 +56,7 @@ engine.all.connect('Billy',engine.State('This is a local farmer. If you need fre
 engine.all.connect('Cipfried',engine.State('He is just an old monk. However, he can heal you if you are badly injured or poisoned.'))
 engine.all.connect('Dixi',engine.State('She\'s {Obi\'s} granddaughter and deals with {armors} and {shields}. Her shop is south west of town, close to the {temple}.'))
 engine.all.connect('Hyacinth',engine.State('He mostly stays by himself. He\'s a hermit outside of town - good luck finding him.'))
-engine.all.connect('Lee\'Delle',engine.State('If you are a {premium} adventurer, you should check out {Lee\'Delle\'s} shop. She lives in the western part of town, just across the bridge.'))
+engine.all.connect('Lee\'Delle',engine.State('If you are a {premium} adventurer, you should check out {Lee\'Delle}\'} shop. She lives in the western part of town, just across the bridge.'))
 engine.all.connect('Lily',engine.State('She sells health {potions} and antidote potions. Also, she buys {blueberries} and {cookies} in case you find any.'))
 engine.all.connect('Loui',engine.State('No idea who that is.'))
 engine.all.connect('Norma',engine.State('She used to sell equipment, but I think she has opened a small bar now. Talks about changing her name to \'Mary\' and such, strange girl.'))
