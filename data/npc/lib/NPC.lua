@@ -30,9 +30,11 @@ function doCreatureSayWithDelay(creatureID, message, type_, delay, playerID)
 end
 
 if not NPC then
-    function NPC(...)
+    function NPC(greetings, responses, farewell)
         --[[
-        OPTIONAL {value} 1,...n - parameters to pass to this NPC's dialogEngine (see DialogEngine)
+        REQUIRED {string}|{table} greetings - parameter passed directly to DialogEngine (see data/npc/lib/DialogEngine::DialogEngine)
+        OPTIONAL {string}|{table} responses - parameter passed directly to DialogEngine (see data/npc/lib/DialogEngine::DialogEngine)
+        OPTIONAL {string}|{table} farewell  - a single response or a list of responses to use when leaving the default state for a reason other than FAREWELL (ex WALKAWAY, TIMEOUT, etc.)
 
         This function creates a new NPC object (see data/lib/datastructures::mix) and returns it. It inherits from the current npc userdata (as returned from Npc()) and includes the properties dialogEngine and messages as well as the child class State.
 
@@ -41,32 +43,10 @@ if not NPC then
         This represents a very powerful model where an NPC or it's child class can create new NPC states and define behavior for entering and leaving those states. The 'default' state means the NPC is just listening for the player to engage them in dialog and it will be removed from the current states when the player disappears.
         ]]
         local _npc = mix("NPC")
-        _npc.dialogEngine = DialogEngine(...)
+        _npc.dialogEngine = DialogEngine(greetings, responses)
 
         -- override the + operator on messages so that we can set new messages without changing the old ones; child classes can call self.messages = self.messages + {NEW_KEY="NEW VALUE"} and NEW_KEY will not override a message that already exists on NPC
-        _npc.messages = setmetatable({},{
-            __add = function(lhs, rhs)
-                --[[
-                    REQUIRED {table} lhs - left hand side of the + operator
-                    REQUIRED {table} rhs - right hand side of the + operator
-                
-                    return a new table that contains all messages in lhs as well as any messages in rhs that did not conflict with keys in lhs
-                ]]
-                    if type(rhs) ~= "table" then
-                        logging:error("syntax error near '+'")
-                    end
-
-                    local t = {}
-
-                    for k,v in pairs(lhs) do t[k] = v end
-
-                    for k,v in pairs(rhs) do
-                       if not t[k] then t[k] = v end
-                    end
-
-                    return t
-                end
-        })
+        _npc.messages = {FAREWELL=type(farewell) == "string" and {farewell} or farewell}
 
         _inherit_from_userdata(_npc, Npc())
 
@@ -153,7 +133,7 @@ if not NPC then
                     doNpcSetCreatureFocus(0)
                 end
 
-                self.dialogEngine.exit(player)
+                self.dialogEngine.reset(player)
 
                 return
             end
@@ -249,7 +229,7 @@ if not NPC then
 
             return nil
             ]]
-            _last_spoke[player] = now()
+            _last_spoke[player:getId()] = now()
         end
 
         function _npc:is_stale(player)
@@ -258,8 +238,7 @@ if not NPC then
 
             return true if and only if the last time this player performed an action on the NPC is less than or equal to this NPC's timeout value
             ]]
-
-            return _last_spoke[player] and now() - _last_spoke[player] > self:getTimeout()
+            return _last_spoke[player:getId()] and (now() - _last_spoke[player:getId()]) > self:getTimeout()
         end
 
         function _npc:onCreatureAppear(creature)
@@ -291,7 +270,7 @@ if not NPC then
             if not creature:isPlayer() then return end
             -- exit the state machine and clean up when a player disappears
             self._active_states:__set(creature, nil)
-            _last_spoke[creature] = nil
+            _last_spoke[creature:getId()] = nil
         end
 
         function _npc:get_distance(creature)
@@ -319,7 +298,7 @@ if not NPC then
 
             if self:get_distance(creature) > self:getListenRadius() then return end
 
-            if self:is_engaged(creature) and isPrivateChannel(type_) or self:is_default() then
+            if self:is_engaged(creature) and isPrivateChannel(type_) or self:is_default(creature) then
                 self:refresh(creature)
                 self.dialogEngine.on_say(creature, message)
             end
@@ -331,7 +310,8 @@ if not NPC then
 
             standard NPC callback function; will perform a TIMEOUT action if appropriate
             ]]
-            for player,state in pairs(self._active_states) do
+            for player_ID,state in pairs(self._active_states) do
+                player = Player(player_ID)
                 if self:is_stale(player) then
                     self:_do(player, TIMEOUT)
                 end
@@ -421,6 +401,14 @@ if not NPC then
                 REQUIRED {number} action - the action that moved the player into the default state
             ]]
                 _npc:reset(player)
+
+                -- player has ended the conversation without saying bye
+                if FAREWELL ~= action and _npc.messages.FAREWELL then
+                    -- TODO say these things w/delay (ie use an event & add to queue)
+                    for _,line in ipairs(_npc.messages.FAREWELL) do
+                        selfSay(_npc:format(line, player), player)
+                    end
+                end
             end
 
         _engaged = _npc.State('engaged')

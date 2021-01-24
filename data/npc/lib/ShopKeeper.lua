@@ -85,6 +85,7 @@ if not ShopKeeper then
         ]]
 
         local _super = NPC(...)
+
         local _shop_keeper = mix("ShopKeeper",
             {
                 -- TODO get this number from configuration
@@ -93,8 +94,7 @@ if not ShopKeeper then
             },
             _super)
 
-        -- see data/npc/lib/NPC for why we add these tables together
-        _shop_keeper.messages = _shop_keeper.messages + {
+        _shop_keeper.messages = mix("Map", {
             SOLD_TOAST = "Bought |AMOUNT|x |ITEMNAME| for |COST| gold.",
             SOLD_SOME = "You do not have enough room for all items.",
 
@@ -102,7 +102,7 @@ if not ShopKeeper then
 
             ON_TRADE = "Of course, just browse through my wares.",
             ON_CLOSESHOP = "Thank you, come back whenever you're in need of something else."
-        }
+        }, _super.messages)
 
         function _shop_keeper:format(str, player, amount, shop_item, cost)
             --[[

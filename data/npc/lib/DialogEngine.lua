@@ -17,8 +17,6 @@ function DialogEngine(greetings, responses)
     -- private state for this machine
     local _current_states = nil
 
-
-
     _machine.reset = function(player)
         --[[
             reset private state of this machine; used on initialization and when the state machine exits (ex reaches a state with no outgoing edges)
