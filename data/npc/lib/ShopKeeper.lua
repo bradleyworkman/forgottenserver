@@ -168,7 +168,7 @@ if not ShopKeeper then
 
                 local shop_item = _shop_keeper:get_shop_item(_player, item_ID, subtype)
 
-                if player:removeItem(itemid, amount, subType, ignoreEquipped) then
+                if player:removeItem(shop_item.id, amount, shop_item.subtype, ignore_equipped) then
                     local payment = amount * shop_item.buyPrice
 
                     _player:sendTextMessage(MESSAGE_INFO_DESCR, _shop_keeper:format(
