@@ -2960,7 +2960,7 @@ bool Player::updateSaleShopList(const Item* item)
 	return true;
 }
 
-bool Player::hasShopItemForSale(uint32_t itemId, uint8_t subType) const
+bool Player::hasShopItemForSell(uint32_t itemId, uint8_t subType) const
 {
 	const ItemType& itemType = Item::items[itemId];
 	return std::any_of(shopItemList.begin(), shopItemList.end(), [&](const ShopInfo& shopInfo) {
@@ -2970,6 +2970,8 @@ bool Player::hasShopItemForSale(uint32_t itemId, uint8_t subType) const
 
 bool Player::hasShopItemForBuy(uint32_t itemId, uint8_t subType) const
 {
+std::cout << "Player::hasShopItemForBuy" << std::endl;
+
 	const ItemType& itemType = Item::items[itemId];
 	return std::any_of(shopItemList.begin(), shopItemList.end(), [&](const ShopInfo& shopInfo) {
 		return shopInfo.itemId == itemId && shopInfo.sellPrice > 0 && (!itemType.isFluidContainer() || shopInfo.subType == subType);

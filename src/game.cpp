@@ -2684,10 +2684,6 @@ void Game::playerPurchaseItem(uint32_t playerId, uint16_t spriteId, uint8_t coun
 		return;
 	}
 
-	if (count == 0 || count > 100) {
-		return;
-	}
-
 	Player* player = getPlayerByID(playerId);
 	if (!player) {
 		return;
@@ -2712,7 +2708,7 @@ void Game::playerPurchaseItem(uint32_t playerId, uint16_t spriteId, uint8_t coun
 		subType = count;
 	}
 
-	if (!player->hasShopItemForSale(it.id, subType)) {
+	if (!player->hasShopItemForBuy(it.id, subType)) {
 		return;
 	}
 
@@ -2749,7 +2745,7 @@ void Game::playerSellItem(uint32_t playerId, uint16_t spriteId, uint8_t count, u
 		subType = count;
 	}
 
-	if (!player->hasShopItemForBuy(it.id, subType)) {
+	if (!player->hasShopItemForSell(it.id, subType)) {
 		return;
 	}
 
@@ -2792,7 +2788,7 @@ void Game::playerLookInShop(uint32_t playerId, uint16_t spriteId, uint8_t count)
 		subType = count;
 	}
 
-	if (!player->hasShopItemForSale(it.id, subType)) {
+	if (!player->hasShopItemForBuy(it.id, subType)) {
 		return;
 	}
 
