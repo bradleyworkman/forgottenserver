@@ -61,10 +61,10 @@
         <shop-item name="Backpack" sell-price="10"/>
         <shop-item id="1987" name="Bag" sell-price="4"/>
         <shop-item name="Fishing Rod" sell-price="150" buy-price="30" />
-        <shop-item id="8712" name="Rope" sell-price="50" buy-price="8"/>
+        <shop-item id="2120" name="Rope" sell-price="50" buy-price="8"/>
         <shop-item id="1949" name="Scroll" sell-price="5"/>
         <shop-item name="Scythe" sell-price="12"/>
-        <shop-item id="8711" name="Shovel" sell-price="10" buy-price="2"/>
+        <shop-item id="2554" name="Shovel" sell-price="10" buy-price="2"/>
         <shop-item id="2050" name="Torch" sell-price="2"/>
         <shop-item name="Worm" sell-price="1"/>
     </shop>
