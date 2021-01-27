@@ -50,7 +50,6 @@ build/
 *.vssscc
 .builds
 *.pidb
-*.log
 *.scc
 
 # Visual C++ cache files
@@ -182,3 +181,7 @@ pip-log.txt
 #############
 config.lua
 tfs
+
+#transcripts
+!/transcripts/**/*.log
+/transcripts/**/*.lua
