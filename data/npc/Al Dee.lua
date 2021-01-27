@@ -30,7 +30,6 @@ engine.all.connect('premium', engine.State('As a {premium} adventurer you have m
 engine.all.connect('king', engine.State('The {king} encouraged salesmen to travel here, but only I dared to take the risk, and a risk it was!'))
 engine.all.connect('sell', engine.State('Just ask me for a  {trade}  to see what I buy from you.'))
 engine.all.connect({'wares','stuff'}, engine.State('Just ask me for a  {trade}  to see my offers.'))
-engine.all.connect({'pick','small axe'}, engine.State('{Pick}s are hard to come by. I {trade} them only in exchange for high quality {small axe}s. Would you like to make that deal?'))
 engine.all.connect('dungeon', engine.State('If you want to explore the {dungeon}s such as the  {sewers} , you have to  equip  yourself with the  {vital}  {stuff} I am selling. It\'s {vital} in the deepest sense of the word.'))
 engine.all.connect('sewers', engine.State('Oh, our sewer system is very primitive - it\'s so primitive that it\'s overrun by  {rats} . But the {stuff} I {sell} is safe from them. Just ask me for a  {trade}  to see it!'))
 engine.all.connect('vital', engine.State('Well, {vital} means - necessary for you to survive!'))
@@ -64,5 +63,29 @@ engine.all.connect('seymour', engine.State('{Seymour} is a teacher running the  
 engine.all.connect('tom', engine.State('He\'s the local tanner. You could try selling fresh corpses or leather to him.'))
 engine.all.connect('willie', engine.State('This is a local farmer. If you need fresh  {food}  to regain your health, it\'s a good place to go. However, many {monsters} also carry {food} such as meat or cheese. Or you could simply {pick}  blueberries .'))
 engine.all.connect('zirella', engine.State('Poor old woman, her son  {Tom}  never visits her.'))
+
+quest_state = engine.State('{Pick}s are hard to come by. I {trade} them only in exchange for high quality {small axe}s. Would you like to make that deal?')
+
+reward_state = engine.State()
+reward_state.on_enter = function(player, query)
+    if player:removeItem(2559, 1) then
+        player:addItem(2553, 1)
+        engine.respond(player, 'Splendid! Here, take your pick.')
+    else
+        engine.respond(player, 'Sorry, I am looking for a {SMALL axe}.')
+    end
+
+    engine.set(player, quest_state)
+end
+
+quest_state.to("yes", reward_state)
+
+quest_state.on_exit = function(player, query, destination)
+    if destination ~= reward_state then
+        engine.respond(player, "Well, then don't")
+    end
+end
+
+engine.all.connect({'pick','small axe'}, quest_state)
 
 engine.all.to('bye', engine.State('Bye, bye |PLAYERNAME|.'))
