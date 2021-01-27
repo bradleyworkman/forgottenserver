@@ -198,6 +198,10 @@ function DialogEngine(greetings, responses)
     -- initialize this machines all
     _machine.all = _All()
 
+    _machine.set = function(player, state)
+        _current_states:__set(player, state)
+    end
+
     -- if greetings is a string, convert it to a list with a single element (its current value), this is a simple optimization to prevent needing to check its type on every call to on_say
     greetings = type(greetings) == "string" and {greetings} or greetings
     _machine.on_say = function(player, query)
@@ -240,7 +244,7 @@ function DialogEngine(greetings, responses)
 
             if _next then
                 -- returning false from an on_exit handler will prevent transitioning to the next state
-                if false ~= current_state._on_exit(player, query) then
+                if false ~= current_state._on_exit(player, query, _next) then
                     _current_states:__set(player, _next)
 
                     -- returning false from an on-enter handler will exit the machine
@@ -248,8 +252,13 @@ function DialogEngine(greetings, responses)
                         _machine.exit(player, query)
                     end
                 end
-            elseif _machine.unhandled then
-                _machine.unhandled(player, query)
+            else
+                current_state._on_exit(player, query, nil)
+
+                -- returning false from an unhandled callback will exit the machine
+                if _machine.unhandled and false == _machine.unhandled(player, query) then
+                    _machine.exit(player, query)
+                end
             end
         end
 
@@ -342,7 +351,7 @@ function DialogEngine(greetings, responses)
             end
         end
 
-        _state._on_exit = function(player, query)
+        _state._on_exit = function(player, query, destination)
             --[[
                 REQUIRED query - the string that triggered a transition away from this state
 
@@ -352,7 +361,7 @@ function DialogEngine(greetings, responses)
             ]]
 
             if _state.on_exit then
-                return _state.on_exit(player, query)
+                return _state.on_exit(player, query, destination)
             end
         end
 

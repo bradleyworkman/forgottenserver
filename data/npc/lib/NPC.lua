@@ -392,6 +392,8 @@ if not NPC then
             ]]
 
                 -- TODO say these things w/delay (ie use an event & add to queue)
+                response = type(response) ~= "table" and {response} or response
+
                 for _,line in ipairs(response) do
                     selfSay(_npc:format(line, player), player)
                 end
