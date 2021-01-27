@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc name="Lee'Delle" script="npc/Lee'Delle.lua">
+    <look type="140" head="78" body="76" legs="72" feet="96" addons="0"/>
+    <shop>
+        <!-- Sell -->
+        <!-- tools -->
+        <shop-item id="1949" name="Scroll" sell-price="5"/>
+        <shop-item id="7956" name="Waterball" sell-price="200"/>
+        <shop-item id="2050" name="Torch" sell-price="2"/>
+        <shop-item id="1987" name="Bag" sell-price="4"/>
+        <shop-item name="Backpack" sell-price="9"/>
+        <!-- weapons -->
+        <!-- armor -->
+        <shop-item name="Jacket" sell-price="9"/>
+        <shop-item name="Coat" sell-price="7"/>
+        <!-- consumable -->
+        <shop-item name="Worm" sell-price="1"/>
+
+        <!-- Sell and Buy -->
+        <!-- tools -->
+        <shop-item name="Fishing Rod" sell-price="140" buy-price="30" />
+        <shop-item name="Sickle" sell-price="7" buy-price="2"/>
+        <shop-item id="2120" name="Rope" sell-price="45" buy-price="8"/>
+        <shop-item name="Scythe" sell-price="10" buy-price="3"/>
+        <shop-item id="2554" name="Shovel" sell-price="9" buy-price="2"/>
+        <!-- weapons -->
+        <shop-item name="Hand Axe" sell-price="7" buy-price="4"/>
+        <shop-item name="Axe" sell-price="18" buy-price="7"/>
+        <shop-item name="Dagger" sell-price="4" buy-price="2"/>
+        <shop-item name="Rapier" sell-price="13" buy-price="5"/>
+        <shop-item name="Sabre" sell-price="22" buy-price="12"/>
+        <shop-item name="Short Sword" sell-price="26" buy-price="10"/>
+        <shop-item name="Spear" sell-price="9" buy-price="3"/>
+        <!-- armor -->
+        <shop-item name="Leather Legs" sell-price="9" buy-price="2"/>
+        <shop-item name="Leather Helmet" sell-price="11" buy-price="3"/>
+        <shop-item name="Studded Helmet" sell-price="58" buy-price="20"/>
+        <shop-item name="Doublet" sell-price="14" buy-price="3"/>
+        <shop-item name="Wooden Shield" sell-price="13" buy-price="3"/>
+        <shop-item name="Studded Shield" sell-price="47" buy-price="16"/>
+        <shop-item name="Leather Armor" sell-price="5"/>
+        <!-- consumable -->
+
+        <!-- Buy -->
+        <!-- tools -->
+        <shop-item name="Machete" buy-price="6"/>
+        <!-- weapons -->
+        <shop-item name="Hatchet" buy-price="25"/>
+        <shop-item id="2376" name="Sword" buy-price="25"/>
+        <shop-item name="Katana" buy-price="35"/>
+        <shop-item name="Studded Club" buy-price="2"/>
+        <shop-item name="Mace" buy-price="30"/>
+        <!-- armor -->
+        <shop-item name="Brass Helmet" buy-price="22"/>
+        <shop-item name="Brass Shield" buy-price="25"/>
+        <shop-item name="Chain Armor" buy-price="40"/>
+        <shop-item name="Chain Helmet" buy-price="12"/>
+        <shop-item name="Copper Shield" buy-price="50"/>
+        <shop-item name="Leather Boots" buy-price="2"/>
+        <shop-item name="Legion Helmet" buy-price="22"/>
+        <shop-item name="Plate Shield" buy-price="40"/>
+        <shop-item name="Studded Armor" buy-price="25"/>
+        <shop-item name="Studded Legs" buy-price="15"/>
+        <shop-item name="Viking Helmet" buy-price="25"/>
+        <!-- consumable -->
+    </shop>
+</npc>
