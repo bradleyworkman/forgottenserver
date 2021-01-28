@@ -304,7 +304,7 @@ def remove_html_markup(s):
 
     def _get_tag_name(t):
         name = t[1:t.find(' ')]
-        return name.rstrip('/')
+        return name.strip('/')
      
     in_tag = False
     in_quote = False
