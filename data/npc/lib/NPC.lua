@@ -278,8 +278,12 @@ if not NPC then
             REQUIRED {Creature} creature - a creature to get the distance to
 
             return the distance in whole number of tiles between this NPC and the creature
+
+            note:
+            distance is the maxium between the distance along the x axis and y axis or math.huge is theyre on different z planes
             ]]
-            return getDistanceTo(creature:getId())
+            d = getDistanceTo(creature:getId())
+            return -1 ~= d and d or math.huge
         end
 
         function _npc:onCreatureSay(creature, type_, message)
