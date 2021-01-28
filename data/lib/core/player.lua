@@ -1,5 +1,33 @@
 local foodCondition = Condition(CONDITION_REGENERATION, CONDITIONID_DEFAULT)
 
+function Player.is_shocked(self)
+    return self:hasCondition(CONDITION_ENERGY)
+end
+
+function Player.is_burning(self)
+    return self:hasCondition(CONDITION_FIRE)
+end
+
+function Player.is_poisoned(self)
+    return self:hasCondition(CONDITION_POISON)
+end
+
+function Player.heal(self, min_health, conditions, effect)
+    conditions = conditions or {CONDITION_BLEEDING,CONDITION_PARALYZE,CONDITION_DRUNK,CONDITION_FREEZING,CONDITION_DAZZLED,CONDITION_CURSED}
+
+    effect = effect or CONST_ME_MAGIC_BLUE
+
+    for _,c in ipairs(conditions) do
+        player:removeCondition(c)
+    end
+
+    player:getPosition():sendMagicEffect(CONST_ME_MAGIC_BLUE)
+
+    if player:getHealth() < min_health then
+        player:setHealth(min_health)
+    end
+end
+
 function Player.feed(self, food)
 	local condition = self:getCondition(CONDITION_REGENERATION, CONDITIONID_DEFAULT)
 	if condition then
