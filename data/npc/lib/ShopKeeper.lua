@@ -53,7 +53,7 @@ if not ItemFactory then
                     item = Game.createItem(shop_item.id, amount)
                 end
 
-                items.push_back(item)
+                items:push_back(item)
             else
                 for i=1,amount do
                     if in_containers then
@@ -168,7 +168,8 @@ if not ShopKeeper then
 
                 local shop_item = _shop_keeper:get_shop_item(_player, item_ID, subtype)
 
-                if player:removeItem(shop_item.id, amount, shop_item.subtype, ignore_equipped) then
+                -- NOTE use the subtype passed to this function, as it is the client's item count to sell
+                if player:removeItem(shop_item.id, amount, subtype, ignore_equipped) then
                     local payment = amount * shop_item.buyPrice
 
                     _player:sendTextMessage(MESSAGE_INFO_DESCR, _shop_keeper:format(
@@ -445,7 +446,8 @@ if not ShopKeeper then
 
                 return nil
                 ]]
-                selfSay(_shop_keeper.messages.ON_TRADE, player)
+
+                _shop_keeper.dialogEngine.respond(player, _shop_keeper:format(_shop_keeper.messages.ON_TRADE, player))
                 _shop_keeper:open_shop_window(player)
             end
 
@@ -460,7 +462,9 @@ if not ShopKeeper then
                 _shop_keeper:closeShopWindow(player)
 
                 -- TODO in 8.6 did shop keepers say bye to players?
-                selfSay(_shop_keeper:format(_shop_keeper.messages.ON_CLOSESHOP, player), player)
+                if not contains({TIMEOUT,WALK_AWAY}, action) then
+                    _shop_keeper.dialogEngine.respond(player, _shop_keeper:format(_shop_keeper.messages.ON_CLOSESHOP, player))
+                end
             end
 
         _default = _shop_keeper._states['default']
