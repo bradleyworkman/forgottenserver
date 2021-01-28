@@ -32,7 +32,7 @@ engine.all.connect('dallheim', engine.State('He is a great warrior and our prote
 
 time_state = engine.State()
 time_state.on_enter = function(player, query)
-    engine.respond(player, ('It is about %s. I am so sorry, I have no watches to {sell}. Do you want to buy something else?'):format(getFormattedWorldTime()))
+    engine.respond(player, ('It is about %s. I am so sorry, I have no watches to {sell}. Do you want to buy something else?'):format(get_world_time_for_dialog()))
 end
 
 engine.all.connect('time', time_state)

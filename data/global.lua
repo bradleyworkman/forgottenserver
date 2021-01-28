@@ -35,6 +35,17 @@ function getFormattedWorldTime()
 	return hours .. ':' .. minutes
 end
 
+function get_world_time_for_dialog()
+	local worldTime = getWorldTime()
+	local hours = math.floor(worldTime / 60)
+
+	local minutes = worldTime % 60
+	if minutes < 10 then
+		minutes = '0' .. minutes
+	end
+	return ("%d:%d %s"):format(hours,minutes, 11 >= hours and "am" or "pm")
+end
+
 function getLootRandom()
 	return math.random(0, MAX_LOOTCHANCE) / configManager.getNumber(configKeys.RATE_LOOT)
 end

@@ -1,6 +1,6 @@
 require 'data/npc/lib/NPC'
 
-local loui = NPC({'hi','hello'}, {{'BEWARE! Beware of that {hole}!'},{'BEWARE! Beware of that {hole}!','STAY AWAY FROM THAT {HOLE}!'}}, 'May the {gods} protect you! And stay away from that {hole}!')
+local loui = NPC({'hi','hello'}, 'BEWARE! Beware of that {hole}!', 'STAY AWAY FROM THAT {HOLE}!')
 
 function onCreatureAppear(...)      loui:onCreatureAppear(...)      end
 function onCreatureDisappear(...)   loui:onCreatureDisappear(...)   end
@@ -20,7 +20,14 @@ engine.all.connect('blueberrie', engine.State('Was it...? Yes, I might have look
 engine.all.connect('life', engine.State('The {gods} blessed {Tibia} with abundant forms of {life}.'))
 engine.all.connect('name', engine.State('My {name} is {Loui}.'))
 engine.all.connect('heal', engine.State('Sorry I am out of mana and ingredients, please visit Cipfried in the town.'))
-engine.all.connect('time', engine.State('Now, it is 6:56 am, my child.'))
+
+time_state = engine.State()
+time_state.on_enter = function(player, query)
+    engine.respond(player, ('Now, it is %s, my child.'):format(get_world_time_for_dialog()))
+end
+
+engine.all.connect('time', time_state)
+
 engine.all.connect('tibia', engine.State('Everything around us, that is {Tibia}.'))
 engine.all.connect('monk', engine.State('I am a humble servant of the {gods}.'))
 engine.all.connect('quest', engine.State('I have no {quest}s but to stay away from that {hole} and I\'d recomend you to do the same.'))
