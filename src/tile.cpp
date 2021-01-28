@@ -1268,15 +1268,16 @@ size_t Tile::getLastIndex() const
 uint32_t Tile::getItemTypeCount(uint16_t itemId, int32_t subType /*= -1*/) const
 {
 	uint32_t count = 0;
-	if (ground && ground->getID() == itemId) {
-		count += Item::countByType(ground, subType);
+
+	if (Item::isMatch(ground, itemId, subType)) {
+		count += ground->getItemCount();
 	}
 
 	const TileItemVector* items = getItemList();
 	if (items) {
 		for (const Item* item : *items) {
-			if (item->getID() == itemId) {
-				count += Item::countByType(item, subType);
+			if (Item::isMatch(item, itemId, subType)) {
+				count += ground->getItemCount();
 			}
 		}
 	}

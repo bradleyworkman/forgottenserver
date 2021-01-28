@@ -2728,14 +2728,15 @@ uint32_t Player::getItemTypeCount(uint16_t itemId, int32_t subType /*= -1*/) con
 			continue;
 		}
 
-		if (item->getID() == itemId) {
-			count += Item::countByType(item, subType);
+		if (Item::isMatch(item, itemId, subType)) {
+			count += item->getItemCount();
 		}
 
 		if (Container* container = item->getContainer()) {
 			for (ContainerIterator it = container->iterator(); it.hasNext(); it.advance()) {
-				if ((*it)->getID() == itemId) {
-					count += Item::countByType(*it, subType);
+				Item* containerItem = *it;
+				if (Item::isMatch(containerItem, itemId, subType)) {
+					count += containerItem->getItemCount();
 				}
 			}
 		}
@@ -2743,8 +2744,7 @@ uint32_t Player::getItemTypeCount(uint16_t itemId, int32_t subType /*= -1*/) con
 	return count;
 }
 
-bool Player::removeItemOfType(uint16_t itemId, uint32_t amount, int32_t subType, bool ignoreEquipped/* = false*/) const
-{
+bool Player::removeItemOfType(uint16_t itemId, uint32_t amount, int32_t subType, bool ignoreEquipped/* = false*/) const {
 	if (amount == 0) {
 		return true;
 	}
@@ -2758,11 +2758,8 @@ bool Player::removeItemOfType(uint16_t itemId, uint32_t amount, int32_t subType,
 			continue;
 		}
 
-		if (!ignoreEquipped && item->getID() == itemId) {
-			uint32_t itemCount = Item::countByType(item, subType);
-			if (itemCount == 0) {
-				continue;
-			}
+		if (!ignoreEquipped && Item::isMatch(item, itemId, subType)) {
+			uint32_t itemCount = item->getItemCount();
 
 			itemList.push_back(item);
 
@@ -2772,13 +2769,12 @@ bool Player::removeItemOfType(uint16_t itemId, uint32_t amount, int32_t subType,
 				return true;
 			}
 		} else if (Container* container = item->getContainer()) {
+
 			for (ContainerIterator it = container->iterator(); it.hasNext(); it.advance()) {
 				Item* containerItem = *it;
-				if (containerItem->getID() == itemId) {
-					uint32_t itemCount = Item::countByType(containerItem, subType);
-					if (itemCount == 0) {
-						continue;
-					}
+
+				if (Item::isMatch(containerItem, itemId, subType)) {
+					uint32_t itemCount = containerItem->getItemCount();
 
 					itemList.push_back(containerItem);
 
@@ -2791,6 +2787,7 @@ bool Player::removeItemOfType(uint16_t itemId, uint32_t amount, int32_t subType,
 			}
 		}
 	}
+
 	return false;
 }
 
@@ -2802,11 +2799,12 @@ std::map<uint32_t, uint32_t>& Player::getAllItemTypeCount(std::map<uint32_t, uin
 			continue;
 		}
 
-		countMap[item->getID()] += Item::countByType(item, -1);
+		countMap[item->getID()] += item->getItemCount();
 
 		if (Container* container = item->getContainer()) {
 			for (ContainerIterator it = container->iterator(); it.hasNext(); it.advance()) {
-				countMap[(*it)->getID()] += Item::countByType(*it, -1);
+				Item* containerItem = *it;
+				countMap[containerItem->getID()] += containerItem->getItemCount();
 			}
 		}
 	}

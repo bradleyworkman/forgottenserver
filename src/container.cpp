@@ -567,8 +567,8 @@ uint32_t Container::getItemTypeCount(uint16_t itemId, int32_t subType/* = -1*/) 
 {
 	uint32_t count = 0;
 	for (Item* item : itemlist) {
-		if (item->getID() == itemId) {
-			count += countByType(item, subType);
+		if (Item::isMatch(item, itemId, subType)) {
+			count += item->getItemCount();
 		}
 	}
 	return count;

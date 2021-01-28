@@ -930,12 +930,11 @@ class Item : virtual public Thing
 			count = n;
 		}
 
-		static uint32_t countByType(const Item* i, int32_t subType) {
-			if (subType == -1 || subType == i->getSubType()) {
-				return i->getItemCount();
-			}
-
-			return 0;
+		static bool isMatch(const Item* item, uint16_t itemId, int32_t subType) {
+			return item && 
+				item->getID() == itemId &&
+				(!Item::items[item->getID()].isFluidContainer() ||
+				item->getSubType() == subType);
 		}
 
 		void setDefaultSubtype();

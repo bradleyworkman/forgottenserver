@@ -94,7 +94,7 @@ function Player:removeTotalMoney(amount)
 
     if moneyCount > 0 then
         -- if they had money on them, remove from there first
-        local r = math.max(moneyCount, amount)
+        local r = math.min(moneyCount, amount)
         self:removeMoney(r)
 
         message = ("Paid %d gold from inventory"):format(r)
