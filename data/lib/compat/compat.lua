@@ -385,7 +385,10 @@ function doSetCreatureDropLoot(cid, doDrop) local c = Creature(cid) return c and
 function doChangeSpeed(cid, delta) local c = Creature(cid) return c and c:changeSpeed(delta) or false end
 function doAddCondition(cid, conditionId) local c = Creature(cid) return c and c:addCondition(conditionId) or false end
 function doRemoveCondition(cid, conditionType, subId) local c = Creature(cid) return c and (c:removeCondition(conditionType, CONDITIONID_COMBAT, subId) or c:removeCondition(conditionType, CONDITIONID_DEFAULT, subId) or true) end
-function getCreatureCondition(cid, type, subId) local c = Creature(cid) return c and c:hasCondition(type, subId) or false end
+function getCreatureCondition(cid, type_, subId) local c = Creature(cid) return c and c:hasCondition(type_, subId) or false end
+
+hasCondition = getCreatureCondition
+
 function registerCreatureEvent(cid, name) local c = Creature(cid) return c and c:registerEvent(name) or false end
 function unregisterCreatureEvent(cid, name) local c = Creature(cid) return c and c:unregisterEvent(name) or false end
 
@@ -1062,6 +1065,8 @@ function getThingPos(uid)
 	position.stackpos = stackpos
 	return position
 end
+
+getThingPosition = getThingPos
 
 function getThingfromPos(pos)
 	local tile = Tile(pos)
