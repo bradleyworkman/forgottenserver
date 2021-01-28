@@ -1,8 +1,5 @@
 require 'data/npc/lib/DialogEngine'
 
--- TODO remove this 
-logging.level = DEBUG
-
 function isPrivateChannel(type_)
     return table.contains({TALKTYPE_PRIVATE_PN,TALKTYPE_PRIVATE_NP,TALKTYPE_PRIVATE}, type_)
 end
@@ -395,7 +392,9 @@ if not NPC then
                 response = type(response) ~= "table" and {response} or response
 
                 for _,line in ipairs(response) do
-                    selfSay(_npc:format(line, player), player)
+                    if line then
+                        selfSay(_npc:format(line, player), player)
+                    end
                 end
             end
 
