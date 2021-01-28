@@ -1,4 +1,4 @@
-function onUse(cid, item, fromPosition, itemEx, toPosition)
-	doPlayerSendTextMessage(cid, MESSAGE_INFO_DESCR, ("The time is %s."):format(getFormattedWorldTime()))
+function onUse(player, item, fromPosition, target, toPosition, isHotkey)
+	player:sendTextMessage(MESSAGE_EVENT_ADVANCE, "The time is " .. getTibianTime() .. ".")
 	return true
 end

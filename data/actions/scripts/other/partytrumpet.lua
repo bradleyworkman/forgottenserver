@@ -1,7 +1,7 @@
-function onUse(cid, item, fromPosition, itemEx, toPosition)
-	doTransformItem(item.uid, 6573)
-	doCreatureSay(cid, "TOOOOOOT!", TALKTYPE_ORANGE_1)
-	doSendMagicEffect(fromPosition, CONST_ME_SOUND_BLUE)
-	doDecayItem(item.uid)
-	return TRUE
+function onUse(player, item, fromPosition, target, toPosition, isHotkey)
+	item:transform(13578)
+	item:decay()
+	player:say("TOOOOOOT!", TALKTYPE_MONSTER_SAY)
+	fromPosition:sendMagicEffect(CONST_ME_SOUND_BLUE)
+	return true
 end

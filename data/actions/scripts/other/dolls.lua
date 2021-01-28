@@ -1,4 +1,4 @@
-local DOLLS = {
+local dolls = {
 	[5080] = {"Hug me."},
 	[5669] = {
 		"It's not winning that matters, but winning in style.",
@@ -19,7 +19,7 @@ local DOLLS = {
 		"Aaa... CHOO!",
 		"You... will.... burn!!"
 	},
-	[6388] = {"Merry Christmas "},
+	[6388] = {"Merry Christmas |PLAYERNAME|."},
 	[6512] = {
 		"Ho ho ho",
 		"Jingle bells, jingle bells...",
@@ -46,38 +46,47 @@ local DOLLS = {
 		"Hail TibiaNordic!",
 		"So cold..",
 		"Run, mammoth!"
-	}
+	},
+	[23806] = {
+		"I can hear their whisperings... Revenge!",
+		"You shall feel pain and terror, |PLAYERNAME|",
+		"I do not need a sword to slaughter you",
+		"My sword is broken, but my spirit is not dead",
+		"I can say 469 and more...",
+		"My dark magic lies on tibialatina.wikia.com"
+	},
+	[24331] = {"Hail Tibia Brasileiros! (União&Força)"}
 }
 
-function onUse(cid, item, fromPosition, itemEx, toPosition)
-	local doll = DOLLS[item.itemid]
-	if(doll == nil) then
+function onUse(player, item, fromPosition, target, toPosition, isHotkey)
+	local sounds = dolls[item.itemid]
+	if not sounds then
 		return false
 	end
 
-	if(fromPosition.x == CONTAINER_POSITION) then
-		fromPosition = getThingPosition(cid)
+	if fromPosition.x == CONTAINER_POSITION then
+		fromPosition = player:getPosition()
 	end
 
-	local random = math.random(1, table.maxn(doll))
-	local sound = doll[random]
-	if(item.itemid == 6566) then
-		if(random == 3) then
-			doSendMagicEffect(fromPosition, CONST_ME_POFF)
-		elseif(random == 4) then
-			doSendMagicEffect(fromPosition, CONST_ME_FIREAREA)
-		elseif(random == 5) then
-			doTargetCombatHealth(0, cid, COMBAT_PHYSICALDAMAGE, -1, -1, CONST_ME_EXPLOSIONHIT)
+	local random = math.random(#sounds)
+	local sound = sounds[random]
+	if item.itemid == 6566 then
+		if random == 3 then
+			fromPosition:sendMagicEffect(CONST_ME_POFF)
+		elseif random == 4 then
+			fromPosition:sendMagicEffect(CONST_ME_FIREAREA)
+		elseif random == 5 then
+			doTargetCombatHealth(0, player, COMBAT_PHYSICALDAMAGE, -1, -1, CONST_ME_EXPLOSIONHIT)
 		end
-	elseif(item.itemid == 5669) then
-		doSendMagicEffect(fromPosition, CONST_ME_MAGIC_RED)
-		doTransformItem(item.uid, item.itemid + 1)
-		doDecayItem(item.uid)
-	elseif(item.itemid == 6388) then
-		doSendMagicEffect(fromPosition, CONST_ME_SOUND_YELLOW)
-		sound = sound .. getCreatureName(cid) .. "."
+	elseif item.itemid == 5669 then
+		fromPosition:sendMagicEffect(CONST_ME_MAGIC_RED)
+		item:transform(item.itemid + 1)
+		item:decay()
+	elseif item.itemid == 6388 then
+		fromPosition:sendMagicEffect(CONST_ME_SOUND_YELLOW)
 	end
 
-	doCreatureSay(cid, sound, TALKTYPE_MONSTER_SAY, false, 0, fromPosition)
+	sound = sound:gsub('|PLAYERNAME|', player:getName())
+	player:say(sound, TALKTYPE_MONSTER_SAY, false, 0, fromPosition)
 	return true
 end

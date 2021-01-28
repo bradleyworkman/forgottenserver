@@ -1,8 +1,10 @@
-function onUse(cid, item, fromPosition, itemEx, toPosition)
-	if(item.uid ~= getPlayerSlotItem(cid, CONST_SLOT_HEAD).uid) then
-		return false
+function onUse(player, item, fromPosition, target, toPosition, isHotkey)
+	local slot = player:getSlotItem(CONST_SLOT_HEAD)
+	if slot and item.uid == slot.uid then
+		player:addAchievementProgress('Party Animal', 200)
+		player:getPosition():sendMagicEffect(CONST_ME_GIFT_WRAPS)
+		return true
 	end
 
-	doSendMagicEffect(getCreaturePosition(cid), CONST_ME_GIFT_WRAPS)
-	return true
+	return false
 end

@@ -1,10 +1,15 @@
-function onUse(cid, item, fromPosition, itemEx, toPosition)
-	if(fromPosition.x ~= CONTAINER_POSITION) then
-		doSendMagicEffect(fromPosition, CONST_ME_CRAPS)
+function onUse(player, item, fromPosition, target, toPosition, isHotkey)
+	local dicePosition = item:getPosition()
+	local value = math.random(6)
+	local isInGhostMode = player:isInGhostMode()
+
+	dicePosition:sendMagicEffect(CONST_ME_CRAPS, isInGhostMode and player)
+
+	local spectators = Game.getSpectators(dicePosition, false, true, 3, 3)
+	for i = 1, #spectators do
+		player:say(player:getName() .. " rolled a " .. value .. ".", TALKTYPE_MONSTER_SAY, isInGhostMode, spectators[i], dicePosition)
 	end
 
-	local value = math.random(5792, 5797)
-	doTransformItem(item.uid, value)
-	doCreatureSay(cid, getCreatureName(cid) .. ' rolled a ' .. value - 5791 .. '.', TALKTYPE_ORANGE_1)
+	item:transform(5791 + value)
 	return true
 end

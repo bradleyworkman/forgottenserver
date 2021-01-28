@@ -1,21 +1,15 @@
-  local config = {
-        storage = 45123,
-        key_id = 1988 -- Key ID
-
-}
-
-function onUse(cid, item, fromPosition, itemEx, toPosition)
-        if getPlayerStorageValue(cid, config.storage) == -1 then
-                setPlayerStorageValue(cid, config.storage, 1)
-				doPlayerSendTextMessage(cid,MESSAGE_INFO_DESCR, "You have found a backpack.")
-                key = doPlayerAddItem(cid, config.key_id, 1)
-				doAddContainerItem(key, 2238, 1)
-				doAddContainerItem(key, 2268, 3)
-				doAddContainerItem(key, 2467, 1)
-				doAddContainerItem(key, 2459, 1)
-				doAddContainerItem(key, 2397, 1)
-				doAddContainerItem(key, 2598, 1)
-        else
-                doPlayerSendTextMessage(cid,MESSAGE_INFO_DESCR, "The dead human is empty.")
-        end
-end 
+function onUse(player, item, fromPosition, target, toPosition, isHotkey)
+	local tile = Tile(Position({ x = 32780 , y = 32231 , z = 8}))
+	if item.itemid == 1945 then
+		if tile:getItemById(387) then
+			tile:getItemById(387):remove()
+			item:transform(1946)
+		else
+			Game.createItem(387, 1, { x = 32780 , y = 32231 , z = 8})
+		end
+	else
+		Game.createItem(387, 1, { x = 32780 , y = 32231 , z = 8})
+		item:transform(1945)
+	end
+	return true
+end

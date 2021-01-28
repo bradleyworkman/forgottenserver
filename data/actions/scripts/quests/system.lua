@@ -1,102 +1,124 @@
 local specialQuests = {
-	[2001] = 30015 --Annihilator
+	[2215] = Storage.AnnihilatorDone,
+	[2016] = Storage.DreamersChallenge.Reward,
+	[10544] = Storage.PitsOfInferno.WeaponReward,
+	[12513] = Storage.thievesGuild.Reward,
+	[12374] = Storage.WrathoftheEmperor.mainReward,
+	[26300] = Storage.SvargrondArena.RewardGreenhorn,
+	[27300] = Storage.SvargrondArena.RewardScrapper,
+	[28300] = Storage.SvargrondArena.RewardWarlord
 }
 
 local questsExperience = {
-	[30015] = 10000
+	[2217] = 1 -- dummy values
 }
 
-function onUse(cid, item, fromPosition, itemEx, toPosition)
-	--[[if(getPlayerCustomFlagValue(cid, PLAYERCUSTOMFLAG_GAMEMASTERPRIVILEGES)) then
-		doSendMagicEffect(getCreaturePosition(cid), CONST_ME_POFF, cid)
-		return true
-	end]]
+local questLog = {
+	[9130] = Storage.hiddenCityOfBeregar.DefaultStart
+}
 
+local tutorialIds = {
+	[50080] = 5,
+	[50082] = 6,
+	[50084] = 10,
+	[50086] = 11
+}
+
+local hotaQuest = {12102, 12103, 12104, 12105, 12106, 12107}
+
+function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 	local storage = specialQuests[item.actionid]
-	if(not storage) then
+	if not storage then
 		storage = item.uid
-		if(storage > 65535) then
+		if storage > 65535 then
 			return false
 		end
 	end
 
-	if(getPlayerStorageValue(cid, storage) > 0) then
-		doPlayerSendTextMessage(cid, MESSAGE_INFO_DESCR, "It is empty.")
+	if player:getStorageValue(storage) > 0 then
+		player:sendTextMessage(MESSAGE_EVENT_ADVANCE, 'The ' .. ItemType(item.itemid):getName() .. ' is empty.')
 		return true
 	end
 
-	local items = {}
-	local reward = 0
-
-	local size = isContainer(item.uid) and getContainerSize(item.uid) or 0
-		for i = 0, size do
-			local tmp = getContainerItem(item.uid, i)
-			if(tmp.itemid > 0) then
-				table.insert(items, tmp)
-			end
+	local items, reward = {}
+	local size = item:isContainer() and item:getSize() or 0
+	if size == 0 then
+		reward = item:clone()
+	else
+		local container = Container(item.uid)
+		for i = 0, container:getSize() - 1 do
+			items[#items + 1] = container:getItem(i):clone()
 		end
-
-	size = table.maxn(items)
-	if(size == 1) then
-		reward = doCopyItem(items[1], true)
 	end
 
-	local result = ""
-	if(reward ~= 0) then
-		local ret = getItemDescriptions(reward.uid)
-		if(reward.type > 0 and isItemRune(reward.itemid)) then
-			result = reward.type .. " charges " .. ret.name
-		elseif(reward.type > 0 and isItemStackable(reward.itemid)) then
-			result = reward.type .. " " .. ret.plural
+	size = #items
+	if size == 1 then
+		reward = items[1]:clone()
+	end
+
+	local result = ''
+	if reward then
+		local ret = ItemType(reward.itemid)
+		if ret:isRune() then
+			result = ret:getArticle() .. ' ' ..  ret:getName() .. ' (' .. reward.type .. ' charges)'
+		elseif ret:isStackable() and reward:getCount() > 1 then
+			result = reward:getCount() .. ' ' .. ret:getPluralName()
+		elseif ret:getArticle() ~= '' then
+			result = ret:getArticle() .. ' ' .. ret:getName()
 		else
-			result = ret.article .. " " .. ret.name
+			result = ret:getName()
 		end
 	else
-		if(size > 20) then
-			reward = doCopyItem(item, false)
-		elseif(size > 8) then
-			reward = getThing(doCreateItemEx(1988, 1))
+		if size > 20 then
+			reward = Game.createItem(item.itemid, 1)
+		elseif size > 8 then
+			reward = Game.createItem(1988, 1)
 		else
-			reward = getThing(doCreateItemEx(1987, 1))
+			reward = Game.createItem(1987, 1)
 		end
 
 		for i = 1, size do
-			local tmp = doCopyItem(items[i], true)
-			if(doAddContainerItemEx(reward.uid, tmp.uid) ~= RETURNVALUE_NOERROR) then
-				print("[Warning] QuestSystem:", "Could not add quest reward")
-			else
-				local ret = ", "
-				if(i == 2) then
-					ret = " and "
-				elseif(i == 1) then
-					ret = ""
-				end
-
-				result = result .. ret
-				ret = getItemDescriptions(tmp.uid)
-				if(tmp.type > 0 and isItemRune(tmp.itemid)) then
-					result = result .. tmp.type .. " charges " .. ret.name
-				elseif(tmp.type > 0 and isItemStackable(tmp.itemid)) then
-					result = result .. tmp.type .. " " .. ret.plural
-				else
-					result = result .. ret.article .. " " .. ret.name
-				end
+			local tmp = items[i]
+			if reward:addItemEx(tmp) ~= RETURNVALUE_NOERROR then
+				print('[Warning] QuestSystem:', 'Could not add quest reward to container')
 			end
 		end
+		local ret = ItemType(reward.itemid)
+		result = ret:getArticle() .. ' ' .. ret:getName()
 	end
 
-	if(doPlayerAddItemEx(cid, reward.uid, false) ~= RETURNVALUE_NOERROR) then
-		result = "You have found a reward weighing " .. getItemWeight(reward.uid) .. " oz. It is too heavy or you have not enough space."
-	else
-		result = "You have found " .. result .. "."
-		setPlayerStorageValue(cid, storage, 1)
-		if(questsExperience[storage] ~= nil) then
-			local player = Player(cid)
-			player:addExperience(questsExperience[storage])
-			doSendAnimatedText(player:getPosition(), questsExperience[storage], TEXTCOLOR_WHITE)
+	if player:addItemEx(reward) ~= RETURNVALUE_NOERROR then
+		local weight = reward:getWeight()
+		if player:getFreeCapacity() < weight then
+			player:sendCancelMessage(string.format('You have found %s weighing %.2f oz. You have no capacity.', result, (weight / 100)))
+		else
+			player:sendCancelMessage('You have found ' .. result .. ', but you have no room to take it.')
+		end
+		return true
+	end
+
+	if questsExperience[storage] then
+		player:addExperience(questsExperience[storage], true)
+	end
+
+	if questLog[storage] then
+		player:setStorageValue(questLog[storage], 1)
+	end
+
+	if tutorialIds[storage] then
+		player:sendTutorial(tutorialIds[storage])
+		if item.uid == 50080 then
+			player:setStorageValue(Storage.RookgaardTutorialIsland.SantiagoNpcGreetStorage, 3)
 		end
 	end
 
-	doPlayerSendTextMessage(cid, MESSAGE_INFO_DESCR, result)
+	if isInArray(hotaQuest, item.uid) then
+		if player:getStorageValue(Storage.TheAncientTombs.DefaultStart) ~= 1 then
+			player:setStorageValue(Storage.TheAncientTombs.DefaultStart, 1)
+		end
+	end
+
+	player:sendTextMessage(MESSAGE_EVENT_ADVANCE, 'You have found ' .. result .. '.')
+	player:setStorageValue(storage, 1)
 	return true
 end

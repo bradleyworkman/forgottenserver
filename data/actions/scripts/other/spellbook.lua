@@ -1,32 +1,31 @@
-function onUse(cid, item, fromPosition, itemEx, toPosition)
+function onUse(player, item, fromPosition, target, toPosition, isHotkey)
+	local count = getPlayerInstantSpellCount(player)
+	local text = ""
 	local t = {}
-	for i = 0, getPlayerInstantSpellCount(cid) - 1 do
-		local spell = getPlayerInstantSpellInfo(cid, i)
-		if(spell.level ~= 0) then
-			if(spell.manapercent > 0) then
+	for i = 0, count - 1 do
+		local spell = getPlayerInstantSpellInfo(player, i)
+		if spell.level ~= 0 then
+			if spell.manapercent > 0 then
 				spell.mana = spell.manapercent .. "%"
 			end
-
-			table.insert(t, spell)
+			t[#t + 1] = spell
 		end
 	end
-
 	table.sort(t, function(a, b) return a.level < b.level end)
-	local text, prevLevel = "", -1
-	for i, spell in ipairs(t) do
+	local prevLevel = -1
+	local spell
+	for i = 1, #t do
+		spell = t[i]
 		local line = ""
-		if(prevLevel ~= spell.level) then
-			if(i ~= 1) then
+		if prevLevel ~= spell.level then
+			if i ~= 1 then
 				line = "\n"
 			end
-
 			line = line .. "Spells for Level " .. spell.level .. "\n"
 			prevLevel = spell.level
 		end
-
 		text = text .. line .. "  " .. spell.words .. " - " .. spell.name .. " : " .. spell.mana .. "\n"
 	end
-
-	doShowTextDialog(cid, item.itemid, text)
+	player:showTextDialog(item.itemid, text)
 	return true
 end
