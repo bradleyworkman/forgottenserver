@@ -2,11 +2,6 @@
 <npc name="Billy" script="npc/Billy.lua" >
     <look type="153" head="78" body="63" legs="58" feet="115" addons="1"/>
     <shop>
-        <!-- Sell -->
-        <!-- TODO remove these items -->
-        <shop-item id="2563" name="quest item" sell-price="1"/>
-        <shop-item id="2813" name="quest item" sell-price="1" buy-price="100" />
-
         <!-- Sell and Buy -->
         <!-- consumable -->
         <shop-item name="Bread" sell-price="3" buy-price="2"/>
@@ -15,6 +10,8 @@
         <shop-item name="Meat" sell-price="5" buy-price="2"/>
 
         <!-- Buy -->
+        <shop-item id="2813" name="quest item" buy-price="2" />
+
         <!-- consumable -->
         <shop-item name="Salmon" buy-price="2"/>
         <shop-item name="Carrot" buy-price="1"/>
