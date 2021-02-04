@@ -834,6 +834,7 @@ function getItemDescriptions(itemId)
 		description = itemType:getDescription()
 	}
 end
+
 function getItemIdByName(name)
 	local id = ItemType(name):getId()
 	if id == 0 then
@@ -1068,7 +1069,7 @@ end
 
 getThingPosition = getThingPos
 
-function getThingfromPos(pos)
+function getThingFromPos(pos)
 	local tile = Tile(pos)
 	if tile == nil then
 		return pushThing(nil)
@@ -1134,6 +1135,8 @@ function getConfigInfo(info)
 	dofile('config.lua')
 	return _G[info]
 end
+
+getConfigValue = getConfigInfo
 
 function getWorldCreatures(type)
 	if type == 0 then
@@ -1322,4 +1325,13 @@ function getBooleanFromString(input)
 
         local str = string.lower(tostring(input))
         return (str == "yes" or str == "true" or (tonumber(str) ~= nil and tonumber(str) > 0))
+end
+
+function getItemInfo(item_ID)
+	return ItemType(item_ID)
+end
+
+function getItemLevelDoor(itemid)
+	local item = getItemInfo(itemid)
+	return item and item.levelDoor or 0
 end
