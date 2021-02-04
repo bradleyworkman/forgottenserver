@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc name="Willie" script="npc/Willie.lua" >
+    <look type="153" head="77" body="63" legs="58" feet="115" addons="1"/>
+    <shop>
+        <!-- Sell and Buy -->
+        <!-- consumable -->
+        <shop-item name="Bread" sell-price="3" buy-price="1"/>
+        <shop-item id="2696" name="Cheese" sell-price="5" buy-price="2"/>
+        <shop-item name="Ham" sell-price="8" buy-price="4"/>
+        <shop-item name="Meat" sell-price="5" buy-price="2"/>
+
+        <!-- Buy -->
+        <!-- consumable -->
+        <shop-item name="Salmon" buy-price="2"/>
+        <shop-item name="Carrot" buy-price="1"/>
+        <shop-item name="Cherry" buy-price="1"/>
+        <shop-item id="2328" name="Egg" buy-price="1"/>
+    </shop>
+</npc>
+

@@ -1,6 +1,6 @@
-require 'data/npc/lib/NPC'
+require 'data/npc/lib/ShopKeeper'
 
-local willie = NPC({'hi','hello'}, 'Hiho |PLAYERNAME|.', 'Yeah, bye.')
+local willie = ShopKeeper({'hi','hello'}, 'Hiho |PLAYERNAME|.', 'YOU RUDE $!@##&')
 
 function onCreatureAppear(...)      willie:onCreatureAppear(...)      end
 function onCreatureDisappear(...)   willie:onCreatureDisappear(...)   end
@@ -18,8 +18,6 @@ engine.all.connect('job', engine.State('I am a farmer and a {cook}.'))
 engine.all.connect('cook', engine.State('I try out old and new {recipes}. You can {sell} me all {food} you have.'))
 engine.all.connect('food', engine.State('Are you looking for {food}? I have bread, cheese, ham, and meat.'))
 engine.all.connect('recipes', engine.State('I would love to try a {banana}-pie. But I lack the {banana}s. If you get me one, I will reward you.'))
-engine.all.connect('banana', engine.State('Have you found a {banana} for me?'))
-engine.all.connect('no', engine.State('Too bad.'))
 engine.all.connect('name', engine.State('Willie.'))
 engine.all.connect('time', engine.State('Am I a clock or what?'))
 engine.all.connect('king', engine.State('I\'m glad that we don\'t see many officials here.'))
@@ -37,4 +35,25 @@ engine.all.connect('dallheim', engine.State('Uhm, fine guy I think.'))
 engine.all.connect('obi', engine.State('This little $&#@& has only #@$*# in his mind. One day I will put a #@$@ in his *@&&#@!'))
 engine.all.connect('seymour', engine.State('This joke of a man thinks he is sooo important.'))
 
-engine.all.to('bye', engine.State('Yeah, bye.'))
+quest_state = engine.State('Have you found a {banana} for me?')
+engine.all.connect('banana', quest_state)
+
+reward_state = engine.State()
+engine.all.from(reward_state)
+reward_state.on_enter = function(player, query)
+    if player:removeItem(2676, 1) then
+        player:addItem(2526, 1)
+        engine.respond(player, 'A banana! Great. Here, take this shield, I don\'t need it anyway.')
+    else
+        engine.respond(player, 'Are you trying to mess with me?!')
+    end
+end
+
+quest_state.to('yes', reward_state)
+quest_state.on_exit = function(player, query, destination)
+    if destination ~= reward_state then
+        engine.respond(player, 'Too bad.')
+    end
+end
+
+engine.all.to({'farewell','bye'}, engine.State('Yeah, bye |PLAYERNAME|.'))
