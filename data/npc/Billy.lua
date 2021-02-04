@@ -1,6 +1,6 @@
 require 'data/npc/lib/ShopKeeper'
 
-local billy = ShopKeeper({'hi','hello'}, 'Howdy |PLAYERNAME|.', 'YOU RUDE $§&$')
+local billy = ShopKeeper({'hi','hello'}, nil, 'YOU RUDE $§&$')
 
 function onCreatureAppear(...)      billy:onCreatureAppear(...)      end
 function onCreatureDisappear(...)   billy:onCreatureDisappear(...)   end
@@ -11,6 +11,16 @@ function onPlayerCloseChannel(...)  billy:onPlayerCloseChannel(...)  end
 function onPlayerEndTrade(...)      billy:onPlayerEndTrade(...)      end
 
 local engine = billy.dialogEngine
+local _enter = engine.on_enter
+engine.on_enter = function(player, query)
+    _enter(player, query)
+    if player:isPremium() then
+        engine.respond(player, 'Howdy |PLAYERNAME|.')
+    else
+        engine.respond(player, 'You did not pay your tax. Get lost!')
+        return false
+    end
+end
 
 engine.all.connect('god', engine.State('I am the {god} of cooking, indeed!'))
 engine.all.connect('help', engine.State('Can\'t {help} you, sorry. I\'m a {cook}, not a priest.'))
