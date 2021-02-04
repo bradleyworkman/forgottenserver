@@ -4,13 +4,13 @@
     <shop>
         <!-- Sell and Buy -->
         <!-- consumable -->
-        <shop-item name="Bread" sell-price="3" buy-price="2"/>
+        <shop-item name="Bread" sell-price="3" buy-price="1"/>
         <shop-item id="2696" name="Cheese" sell-price="5" buy-price="2"/>
         <shop-item name="Ham" sell-price="8" buy-price="4"/>
         <shop-item name="Meat" sell-price="5" buy-price="2"/>
 
         <!-- Buy -->
-        <shop-item id="2813" name="quest item" buy-price="2" />
+        <shop-item id="2813" name="Dead Rat" buy-price="2" />
 
         <!-- consumable -->
         <shop-item name="Salmon" buy-price="2"/>

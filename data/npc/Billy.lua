@@ -34,15 +34,15 @@ engine.all.connect('cook', engine.State('I am the best {cook} around. You can {s
 
 rat_state = engine.State('So you bring me a fresh {rat} for my famous stew?')
 
-engine.all.connect('rat', rat_state)
+engine.all.connect({'sell rat', 'rat'}, rat_state)
 
 rat_reward_state = engine.State()
 rat_reward_state.on_enter = function(player, query)
     if player:removeItem(2813, 1) then
+        engine.respond(player, 'Here you are.')
         player:addMoney(2)
     else
-        -- TODO figure out what Billy actually said if you didnt have a rat!
-        engine.respond(player, 'Hey! You don\'t have one!')
+        engine.respond(player, 'You don\'t have one.')
     end
 end
 engine.all.from(rat_reward_state)
@@ -64,7 +64,7 @@ reward_state.on_enter = function(player, query)
         player:addItem(8704, 1)
         engine.respond(player, 'A pan! At last! Take this in case you eat something my cousin has cooked.')
     else
-        engine.respond(player, 'Hey! You don\'t have one!')
+        engine.respond(player, 'Hey! You don\'t have it!')
     end
 end
 
