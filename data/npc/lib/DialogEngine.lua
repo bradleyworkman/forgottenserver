@@ -385,7 +385,9 @@ function DialogEngine(greetings, responses)
     -- set the initial state of this machine to always be the response to a greeting
     _default_state = _machine.State(responses)
     _default_state.on_enter = function(...)
-        if _machine.on_enter then _machine.on_enter(...) end
+        if _machine.on_enter then
+            return _machine.on_enter(...)
+        end
     end
 
     _machine.all.from(_default_state)

@@ -131,6 +131,9 @@ if not NPC then
                     doNpcSetCreatureFocus(0)
                 end
 
+                self._active_states:__set(player, nil)
+                _last_spoke[player:getId()] = nil
+
                 self.dialogEngine.reset(player)
 
                 return
@@ -190,7 +193,15 @@ if not NPC then
             ]]
 
             local state = self._active_states:__get(player)
-            return state and name == state.id
+
+            if state then
+                return name == state.id
+            end
+
+            -- enter the state machine when a player appears
+            self._active_states:__set(player, _npc._states['default'])
+
+            return name == 'default'
         end
 
         function _npc:is_busy()
@@ -252,8 +263,6 @@ if not NPC then
             logging:debug(string.format("%s::onCreatureAppear", self:getName()), creature:getName())
 
             if not creature:isPlayer() then return end
-            -- enter the state machine when a player appears
-            self._active_states:__set(creature, _npc._states['default'])
         end
 
         function _npc:onCreatureDisappear(creature)
@@ -269,8 +278,7 @@ if not NPC then
 
             if not creature:isPlayer() then return end
             -- exit the state machine and clean up when a player disappears
-            self._active_states:__set(creature, nil)
-            _last_spoke[creature:getId()] = nil
+            self:reset(creature)
         end
 
         function _npc:get_distance(creature)
@@ -298,9 +306,9 @@ if not NPC then
             ]]
             logging:debug(string.format("%s::onCreatureSay", self:getName()), creature:getName(), type_, message)
 
-            if not creature:isPlayer() then return end
-
-            if self:get_distance(creature) > self:getListenRadius() then return end
+            if not creature:isPlayer() or self:get_distance(creature) > self:getListenRadius() then
+                return 
+            end
 
             if self:is_engaged(creature) and isPrivateChannel(type_) or self:is_default(creature) then
                 self:refresh(creature)
@@ -318,6 +326,7 @@ if not NPC then
                 player = Player(player_ID)
                 if self:is_stale(player) then
                     self:_do(player, TIMEOUT)
+                    self:reset(player)
                 end
             end
 
@@ -340,11 +349,11 @@ if not NPC then
             ]]
             logging:debug(string.format("%s::onCreatureMove", self:getName()), creature:getName(), jsonify(from), jsonify(to))
 
-            if not creature:isPlayer() then return end
-            if self:_is(creature, 'default') then return end
+            if not creature:isPlayer() or self:is_default(creature) then return end
 
             if self:get_distance(creature) > self:getListenRadius() then
                 self:_do(creature, WALK_AWAY)
+                self:reset(creature)
             end
         end
 
@@ -359,6 +368,7 @@ if not NPC then
             logging:debug(string.format("%s::onPlayerCloseChannel", self:getName()), player:getName())
 
             self:_do(player, CLOSE_CHANNEL)
+            self:reset(player)
         end
 
         function _npc:onPlayerEndTrade(player)
@@ -402,7 +412,7 @@ if not NPC then
                 end
             end
 
-        _default = _npc.State('default')
+        local _default = _npc.State('default')
         _default.on_enter = function(player, action)
             --[[
                 REQUIRED {Player} player - the player that is moving into the default state
@@ -419,7 +429,7 @@ if not NPC then
                 end
             end
 
-        _engaged = _npc.State('engaged')
+        local _engaged = _npc.State('engaged')
         _engaged.on_enter = function(player, action)
             --[[
                 REQUIRED {Player} player - the player that is moving into the engaged state
