@@ -12,7 +12,7 @@ function onPlayerCloseChannel(...)  zerbrus:onPlayerCloseChannel(...)  end
 function onPlayerEndTrade(...)      zerbrus:onPlayerEndTrade(...)      end
 
 local engine = zerbrus.dialogEngine
-_enter = engine.on_enter
+local _enter = engine.on_enter
 engine.on_enter = function(player, query)
     _enter(player, query)
 
