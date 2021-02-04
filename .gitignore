@@ -185,3 +185,6 @@ tfs
 #transcripts
 !/transcripts/**/*.log
 /transcripts/**/*.lua
+
+# release documentation
+*.html
